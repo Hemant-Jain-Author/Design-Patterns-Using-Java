@@ -1,78 +1,82 @@
-from abc import ABC, abstractmethod
+import java.util.HashMap;
+import java.util.Map;
 
-class IChatRoom(ABC):
-    @abstractmethod
-    def add_participant(self, participant):
-        pass
+interface IChatRoom {
+    void addParticipant(IParticipant participant);
+    void broadcast(String message, String origin);
+    void sendMessage(String message, String to);
+}
 
-    @abstractmethod
-    def broadcast(self, message, origin):
-        pass
+class ChatRoom implements IChatRoom {
+    private Map<String, IParticipant> participants = new HashMap<>();
 
-    @abstractmethod
-    def send_message(self, message, to):
-        pass  
-        
-class ChatRoom(IChatRoom):
-    def __init__(self):
-        self.participants = {}
- 
-    def add_participant(self, participant):
-        self.participants[participant.name] = participant
+    @Override
+    public void addParticipant(IParticipant participant) {
+        participants.put(participant.getName(), participant);
+    }
 
-    def broadcast(self, message, origin):
-        print("ChatRoom broadcast Message : " + message)
-        for p in self.participants:
-            if p != origin:
-                self.participants[p].receive(message)
- 
-    def send_message(self, message, to):
-        self.participants[to].receive(message)
+    @Override
+    public void broadcast(String message, String origin) {
+        System.out.println("ChatRoom broadcast Message : " + message);
+        participants.values().stream()
+                .filter(p -> !p.getName().equals(origin))
+                .forEach(p -> p.receive(message));
+    }
 
+    @Override
+    public void sendMessage(String message, String to) {
+        participants.get(to).receive(message);
+    }
+}
 
-class IParticipant(object):
-    def __init__(self, name, chatRoom):
-        pass
-    
-    def broadcast(self, message):
-        pass
+interface IParticipant {
+    String getName();
+    void broadcast(String message);
+    void send(String message, String to);
+    void receive(String message);
+}
 
-    def send(self, message, to):
-        pass
- 
-    def receive(self, message):
-        pass
+class Participant implements IParticipant {
+    private String name;
+    private IChatRoom chatRoom;
 
-class Participant(IParticipant):
-    def __init__(self, name, chatRoom):
-        self.name = name
-        self.chatRoom = chatRoom 
-        self.chatRoom.add_participant(self)
-    
-    def broadcast(self, message):
-        print(self.name + " broadcast Message : " + message)
-        self.chatRoom.broadcast(message, self.name)
+    public Participant(String name, IChatRoom chatRoom) {
+        this.name = name;
+        this.chatRoom = chatRoom;
+        chatRoom.addParticipant(this);
+    }
 
-    def send(self, message, to):
-        print(self.name + " sent Message : " + message)
-        self.chatRoom.send_message(message, to)
- 
-    def receive(self, message):
-        print(self.name + " received Message : " + message)
+    @Override
+    public String getName() {
+        return name;
+    }
 
-# Client code.
-chatRoom = ChatRoom()
-James = Participant("James", chatRoom)
-Michael = Participant("Michael", chatRoom)
-Robert = Participant("Robert", chatRoom)
-Michael.send("Good Morning.", "James")
-James.broadcast("Hello, World!")
+    @Override
+    public void broadcast(String message) {
+        System.out.println(name + " broadcast Message : " + message);
+        chatRoom.broadcast(message, name);
+    }
 
-"""
-Michael sent Message : Good Morning.
-James received Message : Good Morning.
-James broadcast Message : Hello, World!
-ChatRoom broadcast Message : Hello, World!
-Michael received Message : Hello, World!
-Robert received Message : Hello, World!
-"""
+    @Override
+    public void send(String message, String to) {
+        System.out.println(name + " sent Message : " + message);
+        chatRoom.sendMessage(message, to);
+    }
+
+    @Override
+    public void receive(String message) {
+        System.out.println(name + " received Message : " + message);
+    }
+}
+
+public class MediatorPattern {
+    public static void main(String[] args) {
+        ChatRoom chatRoom = new ChatRoom();
+        Participant james = new Participant("James", chatRoom);
+        Participant michael = new Participant("Michael", chatRoom);
+        Participant robert = new Participant("Robert", chatRoom);
+
+        michael.send("Good Morning.", "James");
+        james.broadcast("Hello, World!");
+    }
+}

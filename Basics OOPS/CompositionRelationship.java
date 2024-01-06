@@ -1,21 +1,38 @@
-class Tyre(object):
-    def __init__(self, type):   #constructor
-        self.type= type         #data members / attributes
-    
-    def get_type(self):          # member function
-        return self.type
+import java.util.ArrayList;
+import java.util.List;
 
+class Tyre {
+    private String type;
 
-class Car(object):
-    def __init__(self, model): #constructor
-        self.model = model
-        self.tyres = []
-        for i in range(4):
-            self.tyres.append(Tyre("MRF"))
+    public Tyre(String type) {
+        this.type = type;
+    }
 
-    def display(self):
-        print("Car: %s, Tyre : %s" % (self.model, self.tyres[0].get_type())) 
+    public String getType() {
+        return type;
+    }
+}
 
-# Client code
-c = Car("BMW")
-c.display()
+class Car {
+    private String model;
+    private List<Tyre> tyres;
+
+    public Car(String model) {
+        this.model = model;
+        this.tyres = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            this.tyres.add(new Tyre("MRF"));
+        }
+    }
+
+    public void display() {
+        System.out.println("Car: " + model + ", Tyre: " + tyres.get(0).getType());
+    }
+}
+
+public class CompositionRelationship {
+    public static void main(String[] args) {
+        Car car = new Car("BMW");
+        car.display();
+    }
+}

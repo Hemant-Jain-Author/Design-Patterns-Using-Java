@@ -1,54 +1,52 @@
-from abc import ABC, abstractmethod
+abstract class AddDataTemplate {
+    final void addData() {
+        open();
+        add();
+        close();
+    }
 
-class AddDataTemplate(ABC):
-    
-    def add_data(self): # Final
-        self.open()
-        self.add()
-        self.close()
+    abstract void open();
+    abstract void add();
+    abstract void close();
+}
 
-    @abstractmethod
-    def open(self):
-        pass
+class AddDataToFile extends AddDataTemplate {
+    @Override
+    void open() {
+        System.out.println("Open file.");
+    }
 
-    @abstractmethod
-    def add(self):
-        pass
-    
-    @abstractmethod
-    def close(self):
-        pass
+    @Override
+    void add() {
+        System.out.println("Add data to file.");
+    }
 
+    @Override
+    void close() {
+        System.out.println("Close file");
+    }
+}
 
-class AddDataToFile(AddDataTemplate):
-    def open(self):
-        print("Open file.")
+class AddDataToDB extends AddDataTemplate {
+    @Override
+    void open() {
+        System.out.println("Open Database.");
+    }
 
-    def add(self):
-        print("Add data to file.")
-    
-    def close(self):
-        print("Close file")
-        
-class AddDataToDB(AddDataTemplate):
-    def open(self):
-        print("Open Database.")
+    @Override
+    void add() {
+        System.out.println("Add data to Database.");
+    }
 
-    def add(self):
-        print("Add data to Database.")
-    
-    def close(self):
-        print("Close Database.")  
+    @Override
+    void close() {
+        System.out.println("Close Database.");
+    }
+}
 
-# Client Code 
-o = AddDataToDB()
-o.add_data()
-
-"""
-Open Database.
-Add data to Database.
-Close Database.
-"""
-
-
-
+public class TemplatePatternData {
+    public static void main(String[] args) {
+        AddDataTemplate addDataToDB = new AddDataToDB();
+        addDataToDB.addData();
+    }
+}

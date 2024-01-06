@@ -1,56 +1,81 @@
-import collections.abc
+import java.util.Iterator;
 
-class LinkedList(collections.abc.Iterable):
-    # Node class representing elements of linked list.
-    class Node:
-        def __init__(self, v, n=None):
-            self.value = v
-            self.next = n
-            
-    # Constructor of linked list.
-    def __init__(self):
-        self.head = None
-        self.tail = None
-        self.size = 0
+class LinkedList implements Iterable<Integer> {
+    // Node class representing elements of linked list.
+    class Node {
+        int value;
+        Node next;
 
-    def add_tail(self, value):
-        new_node = self.Node(value, None)
-        if self.head == None:
-            self.head = new_node
-        else:
-            self.tail.next = new_node
-        self.tail = new_node
+        public Node(int v, Node n) {
+            value = v;
+            next = n;
+        }
+    }
 
-    def add_head(self, value):
-        new_node = self.Node(value, self.head)
-        if self.head == None:
-            self.tail = new_node
-        self.head = new_node
+    Node head;
+    Node tail;
+    int size;
 
-    def __iter__(self):
-        return LinkedListIterator(self)
+    // Constructor of linked list.
+    public LinkedList() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
 
+    public void addHead(int value) {
+        Node newNode = new Node(value, head);
+        if (head == null) {
+            tail = newNode;
+        }
+        head = newNode;
+        size++;
+    }
 
-class LinkedListIterator(collections.abc.Iterator):
-    def __init__(self, aggregate):
-        self.aggregate = aggregate
-        self.curr = aggregate.head
+    @Override
+    public Iterator<Integer> iterator() {
+        return new LinkedListIterator(this);
+    }
 
-    def __next__(self):
-        if self.curr == None:  # if no_elements_to_traverse:
-            raise StopIteration
-        val = self.curr.value
-        self.curr = self.curr.next
-        return val
+    public int getSize() {
+        return size;
+    }
+}
 
-# Client code.
-aggregate = LinkedList()
-for i in range(5):
-    aggregate.add_head(i)
+class LinkedListIterator implements Iterator<Integer> {
+    LinkedList aggregate;
+    LinkedList.Node current;
 
-for val in aggregate:
-    print(val, end=" ")
+    public LinkedListIterator(LinkedList aggregate) {
+        this.aggregate = aggregate;
+        this.current = aggregate.head;
+    }
 
-"""
-4 3 2 1 0 
-"""
+    @Override
+    public boolean hasNext() {
+        return current != null;
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) {
+            throw new java.util.NoSuchElementException();
+        }
+        int value = current.value;
+        current = current.next;
+        return value;
+    }
+}
+
+class IteratorPatternLinkedList {
+    public static void main(String[] args) {
+        LinkedList aggregate = new LinkedList();
+        for (int i = 0; i < 5; i++) {
+            aggregate.addHead(i);
+        }
+
+        for (int val : aggregate) {
+            System.out.print(val + " ");
+        }
+    }
+}

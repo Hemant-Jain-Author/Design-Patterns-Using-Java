@@ -1,76 +1,113 @@
-from abc import ABC, abstractmethod
+import java.util.ArrayList;
+import java.util.List;
 
-class Element(ABC):  
-    @abstractmethod
-    def accept(self, visitor):
-        pass
+abstract class Element {
+    abstract double accept(Visitor visitor);
+    abstract double price();
+}
 
-class Book(Element):
-    def __init__(self, price, isbn):
-        self.price = price
-        self.isbn = isbn
-        
-    def accept(self, visitor):
-        return visitor.visit_book(self)
+class Book extends Element {
+    private double price;
+    private int isbn;
 
-class Fruit(Element):
-    def __init__(self, price, quantity, type):
-        self.price = price
-        self.quantity = quantity
-        self.type = type
+    public Book(double price, int isbn) {
+        this.price = price;
+        this.isbn = isbn;
+    }
 
-    def accept(self, visitor):
-        return visitor.visit_fruit(self) * self.quantity
+    @Override
+    double price(){
+        return price;
+    }
 
-class Visitor(ABC):
-    def visit_book(self, element):
-        pass
+    @Override
+    double accept(Visitor visitor) {
+        return visitor.visitBook(this);
+    }
+}
 
-    def visit_fruit(self, element):
-        pass
+class Fruit extends Element {
+    private double price;
+    private int quantity;
+    private String type;
 
-class SundayDiscount(Visitor):
-    def visit_book(self, element):
-        return element.price - 50
+    public Fruit(double price, int quantity, String type) {
+        this.price = price;
+        this.quantity = quantity;
+        this.type = type;
+    }
 
-    def visit_fruit(self, element):
-        return element.price - 5
+    @Override
+    double price(){
+        return price;
+    }
 
-class SaleDiscount(Visitor):
-    def visit_book(self, element):
-        return (element.price / 2)
+    @Override
+    double accept(Visitor visitor) {
+        return visitor.visitFruit(this) * quantity;
+    }
+}
 
-    def visit_fruit(self, element):
-        return (element.price / 2)
-        
-class ShoppingCart:
-    def __init__(self):
-        self.list = []
+abstract class Visitor {
+    abstract double visitBook(Book book);
+    abstract double visitFruit(Fruit fruit);
+}
 
-    def add(self, o):
-        self.list.append(o)
+class SundayDiscount extends Visitor {
+    @Override
+    double visitBook(Book book) {
+        return book.price() - 50;
+    }
 
-    def set_discount_visitor(self, discount):
-        self.visitor = discount
+    @Override
+    double visitFruit(Fruit fruit) {
+        return fruit.price() - 5;
+    }
+}
 
-    def accept(self):
-        cost = 0
-        for o in self.list:
-            cost += o.accept(self.visitor)
-        print("total cost : ", cost)
-    
-    
-# Client Code
-os = ShoppingCart()
-os.add(Fruit(100,10,"Apple"))
-os.add(Book(100,12345))
-os.set_discount_visitor(SundayDiscount())
-os.accept()
+class SaleDiscount extends Visitor {
+    @Override
+    double visitBook(Book book) {
+        return book.price() / 2;
+    }
 
-os.set_discount_visitor(SaleDiscount())
-os.accept()
+    @Override
+    double visitFruit(Fruit fruit) {
+        return fruit.price() / 2;
+    }
+}
 
-"""
-total cost :  1000
-total cost :  550.0
-"""
+class ShoppingCart {
+    private List<Element> list = new ArrayList<>();
+    private Visitor visitor;
+
+    public void add(Element element) {
+        list.add(element);
+    }
+
+    public void setDiscountVisitor(Visitor discount) {
+        this.visitor = discount;
+    }
+
+    public void accept() {
+        double cost = 0;
+        for (Element element : list) {
+            cost += element.accept(visitor);
+        }
+        System.out.println("Total cost: " + cost);
+    }
+}
+
+public class VisitorShopping {
+    public static void main(String[] args) {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add(new Fruit(100, 10, "Apple"));
+        cart.add(new Book(100, 12345));
+
+        cart.setDiscountVisitor(new SundayDiscount());
+        cart.accept();
+
+        cart.setDiscountVisitor(new SaleDiscount());
+        cart.accept();
+    }
+}

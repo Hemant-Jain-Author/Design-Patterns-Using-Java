@@ -1,61 +1,90 @@
-# Model
-class Model:
-    def __init__(self):
-        self.data = None
-        self.presenter = None
+import java.util.Scanner;
 
-    def set_data(self, data):
-        print("Model: Set data.")
-        self.data = data
-        self.presenter.model_update_event()
+// Model
+class Model {
+    private String data;
+    private Presenter presenter;
 
-    def get_data(self):
-        print("Model: Get data.")
-        return self.data
+    public void setData(String data) {
+        System.out.println("Model: Set data.");
+        this.data = data;
+        presenter.modelUpdateEvent();
+    }
 
+    public String getData() {
+        System.out.println("Model: Get data.");
+        return data;
+    }
 
-# Presenter
-class Presenter:
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+    }
+}
 
-    def handle_user_input(self, user_input):
-        print("Presenter: Handle user input.")
-        self.model.set_data(user_input)
+// Presenter
+class Presenter {
+    private Model model;
+    private View view;
 
-    def model_update_event(self):
-        print("Presenter: Model update event.")
-        self.view.update(self.model.get_data())
+    public Presenter(Model model, View view) {
+        this.model = model;
+        this.view = view;
+    }
 
+    public void handleUserInput(String userInput) {
+        System.out.println("Presenter: Handle user input.");
+        model.setData(userInput);
+    }
 
-# View
-class View:
-    def __init__(self):
-        self.presenter = None
+    public void modelUpdateEvent() {
+        System.out.println("Presenter: Model update event.");
+        view.update(model.getData());
+    }
+}
 
-    def update(self, data):
-        print("View: Update UI.")
-        print("Data:", data)
+// View
+class View {
+    private Presenter presenter;
 
-    def get_user_input(self):
-        user_input = input("View: Enter user input: ")
-        self.presenter.handle_user_input(user_input)
+    public void update(String data) {
+        System.out.println("View: Update UI.");
+        System.out.println("Data: " + data);
+    }
 
-# Client code
-model = Model()
-view = View()
-presenter = Presenter(model, view)
-model.presenter = presenter
-view.presenter = presenter
-view.get_user_input()
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+    }
 
+    public void getUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("View: Enter user input: ");
+        String userInput = "hello, world!";
+        System.out.println(userInput);
+        //String userInput = scanner.nextLine();
+        presenter.handleUserInput(userInput);
+    }
+}
 
-"""
-View : Enter user input: Hello, world!
-Presenter : Handle user input.
-Model : Set data.
-Presenter : Model update event.
-View : Update UI.
-Data: Hello, world!
-"""
+// Client code
+public class MVP {
+    public static void main(String[] args) {
+        Model model = new Model();
+        View view = new View();
+        Presenter presenter = new Presenter(model, view);
+
+        model.setPresenter(presenter);
+        view.setPresenter(presenter);
+
+        view.getUserInput();
+    }
+}
+
+/*
+View: Enter user input: hello, world!
+Presenter: Handle user input.
+Model: Set data.
+Presenter: Model update event.
+Model: Get data.
+View: Update UI.
+Data: hello, world! 
+ */

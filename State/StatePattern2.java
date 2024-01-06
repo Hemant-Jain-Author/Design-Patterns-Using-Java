@@ -1,41 +1,45 @@
-from abc import ABC, abstractmethod
-import math
+interface State {
+    void handle(Context context);
+}
 
-class Context:
-    def __init__(self, state):
-        self.current_state = state
+class Context {
+    private State currentState;
 
-    def change_state(self, state):
-        self.current_state = state
-    
-    def request(self):
-        self.current_state.handle(self)
+    Context(State state) {
+        this.currentState = state;
+    }
 
+    void changeState(State state) {
+        this.currentState = state;
+    }
 
-class State(ABC):
-    @abstractmethod
-    def handle(self, context):
-        pass
+    void request() {
+        this.currentState.handle(this);
+    }
+}
 
+class ConcreteState1 implements State {
+    @Override
+    public void handle(Context context) {
+        System.out.println("ConcreteState1 handle");
+        context.changeState(new ConcreteState2());
+    }
+}
 
-class ConcreteState1(State):
-    def handle(self, context):
-        print("ConcreteState1 handle")
-        context.change_state(ConcreteState2())
+class ConcreteState2 implements State {
+    @Override
+    public void handle(Context context) {
+        System.out.println("ConcreteState2 handle");
+        context.changeState(new ConcreteState1());
+    }
+}
 
-
-class ConcreteState2(State):
-    def handle(self, context):
-        print("ConcreteState2 handle")
-        context.change_state(ConcreteState1())
-
-# Client code.
-state1 = ConcreteState1()
-context = Context(state1)
-context.request()
-context.request()
-
-"""
-ConcreteState1 handle
-ConcreteState2 handle
-"""
+// Client code.
+public class StatePattern2 {
+    public static void main(String[] args) {
+        State state1 = new ConcreteState1();
+        Context context = new Context(state1);
+        context.request();
+        context.request();
+    }
+}

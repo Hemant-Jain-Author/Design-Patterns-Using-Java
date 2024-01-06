@@ -1,35 +1,47 @@
-class Person(object):
-    def __init__(self, name, age, gender): #constructor
-        self.name = name #data members / attributes
-        self.age = age
-        self.gender = gender
-    
-    def __str__(self): # member function
-        return "Person: %s is a %s and %s years old." % (self.name, self.gender, self.age)
+class Person {
+    protected String name;
+    protected int age;
+    protected String gender;
 
-    def get_gender(self):
-        return self.gender
+    public Person(String name, int age, String gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
 
+    public String toString() {
+        return String.format("Person: %s is a %s and %s years old.", name, gender, age);
+    }
 
-class Citizen(Person):
-    def __init__(self, name, age, id, gender): #constructor
-        super().__init__(name, age, gender)
-        self.id = id
+    public String getGender() {
+        return gender;
+    }
+}
 
-    def voter_Id(self):
-        return self.id
-    
-    def __str__(self):
-        return "Citizen: %s is a %s and %s years old with voter id %s." % (self.name, self.gender, self.age, self.id)
+class Citizen extends Person {
+    private int id;
 
+    public Citizen(String name, int age, int id, String gender) {
+        super(name, age, gender);
+        this.id = id;
+    }
 
-#Client code
-p = Person("John", 32, "Male")
-print(p)
-c = Citizen("Smith", 31, 1234, "Male")
-print(c)
+    public int getVoterId() {
+        return id;
+    }
 
-"""
-Person: John is a Male and 32 years old.
-Citizen: Smith is a Male and 31 years old with voter id 1234.
-"""
+    @Override
+    public String toString() {
+        return String.format("Citizen: %s is a %s and %s years old with voter id %s.", name, gender, age, id);
+    }
+}
+
+public class Inheritance {
+    public static void main(String[] args) {
+        Person p = new Person("John", 32, "Male");
+        System.out.println(p);
+
+        Citizen c = new Citizen("Smith", 31, 1234, "Male");
+        System.out.println(c);
+    }
+}

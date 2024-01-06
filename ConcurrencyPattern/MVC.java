@@ -1,66 +1,108 @@
-# Model
-class Model:
-    def __init__(self):
-        self.data = None
-        self.observers = []
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    def set_data(self, data):
-        print("Model : Set data.")
-        self.data = data
-        self.notify_observers()
+// Model
+class Model {
+    private String data;
+    private List<Observer> observers;
 
-    def get_data(self):
-        print("Model : Get data.")
-        return self.data
+    public Model() {
+        this.observers = new ArrayList<>();
+    }
 
-    def add_observer(self, observer):
-        self.observers.append(observer)
+    public void setData(String data) {
+        System.out.println("Model : Set data.");
+        this.data = data;
+        notifyObservers();
+    }
 
-    def remove_observer(self, observer):
-        self.observers.remove(observer)
+    public String getData() {
+        System.out.println("Model : Get data.");
+        return this.data;
+    }
 
-    def notify_observers(self):
-        print("Model : Notify observers.")
-        for observer in self.observers:
-            observer.update()
+    public void addObserver(Observer observer) {
+        this.observers.add(observer);
+    }
 
+    public void removeObserver(Observer observer) {
+        this.observers.remove(observer);
+    }
 
-# View
-class View:
-    def __init__(self, model, controller):
-        self.controller = controller
-        self.model = model
-        self.model.add_observer(self)
+    public void notifyObservers() {
+        System.out.println("Model : Notify observers.");
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+}
 
-    def update(self):
-        print("View : Update.")
-        data = model.get_data()
-        print("Data:", data)
+// View
+class View implements Observer {
+    private Controller controller;
+    private Model model;
 
-    def get_user_input(self):
-        user_input = input("View : Enter user input: ")
-        self.controller.handle_user_input(user_input)
+    public View(Model model, Controller controller) {
+        this.model = model;
+        this.controller = controller;
+        this.model.addObserver(this);
+    }
 
+    public void update() {
+        System.out.println("View : Update.");
+        String data = model.getData();
+        System.out.println("Data: " + data);
+    }
 
-# Controller
-class Controller:
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view
+    public void getUserInput() {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("View : Enter user input: ");
+            //String userInput = "hello, world!";
+            //System.out.println(userInput);
+            String userInput = scanner.nextLine();
+            controller.handleUserInput(userInput);
+        }
+    }
+}
 
-    def handle_user_input(self, user_input):
-        print("Controller : Handle user input.")
-        self.model.set_data(user_input)
+// Controller
+class Controller {
+    private Model model;
+    private View view;
 
+    public Controller(Model m) {
+        this.model = m;
+    }
 
-# Client code
-model = Model()
-controller = Controller(model, None)  # The Controller sets itself as the observer in this case
-view = View(model, controller)
-controller.view = view
-view.get_user_input()
+    public void handleUserInput(String userInput) {
+        System.out.println("Controller : Handle user input.");
+        model.setData(userInput);
+        // Can inform view about action.
+    }
 
-"""
+    public void setView(View v) {
+        this.view = v;
+    }
+}
+
+// Observer interface
+interface Observer {
+    void update();
+}
+
+// Main class
+public class MVC {
+    public static void main(String[] args) {
+        Model model = new Model();
+        Controller controller = new Controller(model);  // The Controller sets itself as the observer in this case
+        View view = new View(model, controller);
+        controller.setView(view);
+        view.getUserInput();
+    }
+}
+
+/*
 View : Enter user input: hello, world!
 Controller : Handle user input.
 Model : Set data.
@@ -68,4 +110,4 @@ Model : Notify observers.
 View : Update.
 Model : Get data.
 Data: hello, world!
-"""
+ */

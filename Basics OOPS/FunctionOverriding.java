@@ -1,26 +1,41 @@
-class Person(object):
-    def __init__(self, name, age): #constructor
-        self.name = name #data member
-    
-    def toString(self): # member function
-        return "Person: %s:%s" % (self.name, self.oath)
+class Person {
+    protected String name;
+    protected String oath;
 
-    def setOath(self):
-        self.oath = "Always tell truth"
+    public Person(String name) {
+        this.name = name;
+    }
 
+    public String toString() {
+        return "Person: " + name + ":" + oath;
+    }
 
-class Citizen(Person):
-    def __init__(self, name, id): #constructor
-        self.name = name
-        self.id = id
+    public void setOath() {
+        this.oath = "Always tell truth";
+    }
+}
 
-    def setOath(self):
-        self.oath = "Country comes first"
-    
-p = Person("John", 32) # p is an object of type Person
-p.setOath()
-print(p.toString())
+class Citizen extends Person {
+    private int id;
 
-c = Citizen("Smith", 31)
-c.setOath()
-print(c.toString())
+    public Citizen(String name, int id) {
+        super(name);
+        this.id = id;
+    }
+
+    public void setOath() {
+        this.oath = "Country comes first";
+    }
+}
+
+public class FunctionOverriding {
+    public static void main(String[] args) {
+        Person p = new Person("John");
+        p.setOath();
+        System.out.println(p.toString());
+
+        Citizen c = new Citizen("Smith", 31);
+        c.setOath();
+        System.out.println(c.toString());
+    }
+}

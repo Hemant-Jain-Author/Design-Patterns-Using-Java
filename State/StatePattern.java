@@ -1,46 +1,59 @@
-from abc import ABC, abstractmethod
-import math
+interface BulbState {
+    void flip(BulbControl bc);
+    String toString();
+}
 
-class BulbControl:
-    def __init__(self):
-        self.current = Off()
-    
-    def set_state(self, state):
-        self.current = state
+class BulbControl {
+    private BulbState current;
 
-    def flip(self):
-        self.current.flip(self)
+    BulbControl() {
+        this.current = new Off();
+    }
 
-    def to_string(self):
-        return self.current.to_string()
+    void setState(BulbState state) {
+        this.current = state;
+    }
 
-class BulbState(ABC):
-    @abstractmethod
-    def flip(self):
-        pass
+    void flip() {
+        this.current.flip(this);
+    }
 
-class On(BulbState):
-    def flip(self, bc):
-        bc.set_state(Off())
+    String toStringState() {
+        return this.current.toString();
+    }
+}
 
-    def to_string(self):
-        return "On"
+class On implements BulbState {
+    @Override
+    public void flip(BulbControl bc) {
+        bc.setState(new Off());
+    }
 
-class Off(BulbState):
-    def flip(self, bc):
-        bc.set_state(On())
+    @Override
+    public String toString() {
+        return "On";
+    }
+}
 
-    def to_string(self):
-        return "Off"
+class Off implements BulbState {
+    @Override
+    public void flip(BulbControl bc) {
+        bc.setState(new On());
+    }
 
-# Client code.
-c = BulbControl()
-c.flip()
-print(c.to_string())
-c.flip()
-print(c.to_string())
+    @Override
+    public String toString() {
+        return "Off";
+    }
+}
 
-"""
-On
-Off
-"""
+// Client code.
+public class StatePattern {
+    public static void main(String[] args) {
+        BulbControl c = new BulbControl();
+        c.flip();
+        System.out.println(c.toStringState());
+        c.flip();
+        System.out.println(c.toStringState());
+    }
+}

@@ -1,39 +1,49 @@
-import threading
-import sys
+class Database {
+    public Database() {
+        System.out.println("Database created");
+    }
 
-class Database(object):
-    def __init__(self):
-        print("database created")
-    
-    def add_data(self, data):
-        print(data)
+    public void addData(String data) {
+        System.out.println(data);
+    }
+}
 
-class Singleton(object):
-    _instance = None  # Keep instance reference 
-    db = None
-    _lock = threading.Lock()  # Add a lock for thread synchronization
-    
-    def __new__(cls):
-        if not cls._instance:
-            with cls._lock:  # Acquire the lock
-                if not cls._instance:
-                    cls._instance = super(Singleton, cls).__new__(cls)
-                    cls.db = Database()
-        return cls._instance
-    
-    def add_data(self, data):
-        self.db.add_data(data)
+//public 
+class Singleton {
+    private static volatile Singleton instance;  // Volatile keyword for double-checked locking
+    private static Database db;
+    private static final Object lock = new Object();  // Add a lock for thread synchronization
 
-# Client code. 
-s1 = Singleton() 
-s2 = Singleton()
-print(s1)
-print(s2)
-s2.add_data("Hello, world!")
+    private Singleton() {
+        db = new Database();
+    }
 
-"""
-database created
-<__main__.Singleton object at 0x000002260C56BCD0>
-<__main__.Singleton object at 0x000002260C56BCD0>
-Hello, world!
-"""
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (lock) {  // Acquire the lock
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public void addData(String data) {
+        db.addData(data);
+    }
+}
+
+
+public class DoubleChecking {
+
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1);
+        System.out.println(s2);
+
+        s2.addData("Hello, world!");
+    }
+}

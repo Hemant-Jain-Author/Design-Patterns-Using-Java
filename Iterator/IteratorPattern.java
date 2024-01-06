@@ -1,55 +1,71 @@
-from abc import ABC, abstractmethod
+import java.util.ArrayList;
+import java.util.List;
 
-class Aggregate(ABC):
-    @abstractmethod
-    def get_iterator(self):
-        pass
+interface Iterator {
+    int next();
+    boolean hasNext();
+}
 
-class ConcreteAggregate(Aggregate):
-    def __init__(self):
-        self._data = []
+interface Aggregate {
+    Iterator getIterator();
+}
 
-    def addData(self, val):
-        self._data.append(val)
+class ConcreteIterator implements Iterator {
+    private ConcreteAggregate aggregate;
+    private int index;
 
-    def get_iterator(self):
-        return ConcreteIterator(self)
+    public ConcreteIterator(ConcreteAggregate aggregate) {
+        this.aggregate = aggregate;
+        this.index = 0;
+    }
 
-class Iterator(ABC):
-    @abstractmethod
-    def next(self):
-        pass
-    
-    @abstractmethod
-    def has_next(self):
-        pass
+    @Override
+    public int next() {
+        if (index >= aggregate.getData().size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        int value = aggregate.getData().get(index);
+        index++;
+        return value;
+    }
 
-class ConcreteIterator(Iterator):
-    def __init__(self, aggregate):
-        self._aggregate = aggregate
-        self._index = 0
+    @Override
+    public boolean hasNext() {
+        return index < aggregate.getData().size();
+    }
+}
 
-    def next(self):
-        if self._index >= len(self._aggregate._data):
-            raise StopIteration
-        val = self._aggregate._data[self._index]
-        self._index += 1
-        return val
-    
-    def has_next(self):
-        if self._index >= len(self._aggregate._data):
-            return False
-        return True
+class ConcreteAggregate implements Aggregate {
+    private List<Integer> data;
 
-# Client code.
-aggregate = ConcreteAggregate()
-for i in range(5):
-    aggregate.addData(i)
+    public ConcreteAggregate() {
+        this.data = new ArrayList<>();
+    }
 
-iterator =ConcreteIterator(aggregate)
-while iterator.has_next():
-    print(iterator.next(), end=" ")
+    public void addData(int val) {
+        data.add(val);
+    }
 
-"""
-0 1 2 3 4 
-"""
+    @Override
+    public Iterator getIterator() {
+        return new ConcreteIterator(this);
+    }
+
+    public List<Integer> getData() {
+        return data;
+    }
+}
+
+public class IteratorPattern {
+    public static void main(String[] args) {
+        ConcreteAggregate aggregate = new ConcreteAggregate();
+        for (int i = 0; i < 5; i++) {
+            aggregate.addData(i);
+        }
+
+        Iterator iterator = aggregate.getIterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
+    }
+}

@@ -1,38 +1,39 @@
+interface BookParser {
+    int numPages();
+}
 
-from abc import ABC, abstractmethod
+class ConcreteBookParser implements BookParser {
+    private int numPages;
 
-class BookParser(ABC):
-    @abstractmethod
-    def __init__(self, book):
-        pass
-        
-    @abstractmethod
-    def num_pages(self, book):
-        pass
+    public ConcreteBookParser() {
+        System.out.println("Concrete Book Parser Created");
+        // Number of pages calculation heavy operation.
+        // Suppose this calculation results in 1000 pages.
+        this.numPages = 1000;
+    }
 
+    @Override
+    public int numPages() {
+        System.out.println("Concrete Book Parser Request Method");
+        return this.numPages;
+    }
+}
 
-class ConcreteBookParser(BookParser):
-    def __init__(self, book):
-        print("Concrete Subject Request Method")
-        # Number of pages calculation heavy operation.
-        # Suppose this calculation come to 1000 pages.
-        self._num_pages = 1000
+class LazyBookParserProxy implements BookParser {
+    private ConcreteBookParser subject;
 
-    def num_pages(self):
-        print("Concrete Subject Request Method")
-        return self._num_pages
+    @Override
+    public int numPages() {
+        if (subject == null) {
+            subject = new ConcreteBookParser();
+        }
+        return subject.numPages();
+    }
+}
 
-
-class LazyBookParserProxy(BookParser):
-    def __init__(self, book):
-        self._book = book
-        self._subject = None
-
-    def num_pages(self):
-        if self._subject == None:
-            self._subject = ConcreteBookParser(self._book)
-        return self._subject.num_pages()
-
-# Client code
-proxy = LazyBookParserProxy("LOTR")
-print(proxy.num_pages())
+public class ProxyPatternLazy {
+    public static void main(String[] args) {
+        LazyBookParserProxy proxy = new LazyBookParserProxy();
+        System.out.println(proxy.numPages());
+    }
+}

@@ -1,29 +1,37 @@
+import java.util.ArrayList;
+import java.util.List;
 
+public class LimitedInstances {
+    private static List<LimitedInstances> instances = new ArrayList<>();
+    private static final int limit = 4;
 
-class LimitedInstances(object):
-    _instances = []  # Keep track of instance reference
-    limit = 4 
- 
-    def __new__(cls):
-        if not len(cls._instances) <= cls.limit:
-            raise RuntimeError("Instance Limit reached")    
-        instance = object.__new__(cls)
-        cls._instances.append(instance)
-        return instance
-    
-    def __del__(self):
-        # Remove instance from _instances 
-        self._instances.remove(self)
+    private LimitedInstances() {
+    }
 
-    
-# Client code. 
-LimitedInstances()
-LimitedInstances()
-LimitedInstances() 
-LimitedInstances()
-LimitedInstances() 
-LimitedInstances()
-LimitedInstances()
-LimitedInstances() 
-LimitedInstances()
-LimitedInstances() 
+    public static LimitedInstances getInstance() {
+        if (instances.size() < limit) {
+            LimitedInstances instance = new LimitedInstances();
+            instances.add(instance);
+            return instance;
+        } else {
+            throw new RuntimeException("Instance Limit reached");
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+            LimitedInstances.getInstance();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}

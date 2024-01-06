@@ -1,70 +1,89 @@
-from abc import ABC, abstractmethod
+import java.util.ArrayList;
+import java.util.List;
 
-class Subject(ABC):
-    def __init__(self):
-        self.__observers = []
+abstract class Subject {
+    private List<Observer> observers = new ArrayList<>();
 
-    def attach(self, observer):
-        observer._subject = self
-        self.__observers.append(observer)
+    public void attach(Observer observer) {
+        observer.setSubject(this);
+        observers.add(observer);
+    }
 
-    def detach(self, observer):
-        observer._subject = None
-        self.__observers.remove(observer)
+    public void detach(Observer observer) {
+        observer.setSubject(null);
+        observers.remove(observer);
+    }
 
-    def notify(self):
-        for observer in self.__observers:
-            observer.update()
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+}
 
+class ConcreteSubject extends Subject {
+    private String state;
 
-class ConcreteSubject(Subject):
-    def __init__(self):
-        self.__state = None
-        super().__init__()
+    public String getState() {
+        return state;
+    }
 
-    def get_states(self):
-        return self.__state
+    public void setState(String state) {
+        this.state = state;
+        notifyObservers();
+    }
+}
 
-    def set_states(self, arg):
-        self.__state = arg
-        self.notify()
+abstract class Observer {
+    protected Subject subject;
 
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
 
-class Observer(ABC):
-    def __init__(self, sub):
-        self._subject = sub
-        self._subject.attach(self)
+    public abstract void update();
+}
 
-    @abstractmethod
-    def update(self):
-        pass
+class ConcreteObserver1 extends Observer {
+    public ConcreteObserver1(Subject subject) {
+        setSubject(subject);
+        subject.attach(this);
+    }
 
-class ConcreteObserver1(Observer):
-    def __init__(self, subject):
-        super().__init__(subject)
+    @Override
+    public void update() {
+        System.out.println(subject instanceof ConcreteSubject ?
+                ((ConcreteSubject) subject).getState() + " notified to Observer1" : "");
+    }
+}
 
-    def update(self):
-        print(self._subject.get_states() + " notified to Observer1")
+class ConcreteObserver2 extends Observer {
+    public ConcreteObserver2(Subject subject) {
+        setSubject(subject);
+        subject.attach(this);
+    }
 
-class ConcreteObserver2(Observer):
-    def __init__(self, subject):
-        super().__init__(subject)
+    @Override
+    public void update() {
+        System.out.println(subject instanceof ConcreteSubject ?
+                ((ConcreteSubject) subject).getState() + " notified to Observer2" : "");
+    }
+}
 
-    def update(self):
-        print(self._subject.get_states() + " notified to Observer2")
+public class ObserverPattern {
+    public static void main(String[] args) {
+        ConcreteSubject subject = new ConcreteSubject();
+        ConcreteObserver1 observer1 = new ConcreteObserver1(subject);
+        ConcreteObserver2 observer2 = new ConcreteObserver2(subject);
 
+        subject.setState("First state");
+        subject.setState("Second state");
+    }
+}
 
-# Client Code.
-subject = ConcreteSubject()
-observer1 = ConcreteObserver1(subject)
-observer2 = ConcreteObserver2(subject)
-subject.set_states("First state")
-subject.set_states("Second state")
-
-
-"""
+/*
 First state notified to Observer1
 First state notified to Observer2
 Second state notified to Observer1
 Second state notified to Observer2
-"""
+*/

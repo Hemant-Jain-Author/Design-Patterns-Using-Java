@@ -1,45 +1,68 @@
-from abc import ABC, abstractmethod
+import java.util.HashMap;
+import java.util.Map;
 
-class Flyweight(ABC):
-    def __init__(self, intrinsic_state):
-        self.intrinsic_state = intrinsic_state  # intrinsic state  # repeted state
+// Flyweight interface
+interface Flyweight {
+    void operation(String extrinsicState);
+}
 
-    @abstractmethod
-    def operation(self, extrinsic_state): # extrinsic state
-        pass
+// Concrete Flyweight class
+class ConcreteFlyweight implements Flyweight {
+    private String intrinsicState;
 
-class ConcreteFlyweight(Flyweight):
-    def operation(self, extrinsic_state):
-        print("Operation inside concrete flyweight.")
+    public ConcreteFlyweight(String intrinsicState) {
+        this.intrinsicState = intrinsicState;
+    }
 
+    @Override
+    public void operation(String extrinsicState) {
+        System.out.println("Operation inside concrete flyweight: " + this);
+    }
+}
 
-class FlyweightFactory:
-    def __init__(self):
-        self._flyweights = {}
+// FlyweightFactory class
+class FlyweightFactory {
+    private Map<String, Flyweight> flyweights = new HashMap<>();
 
-    def get_flyweight(self, intrinsic_state):
-        if intrinsic_state not in self._flyweights:
-            self._flyweights[intrinsic_state] = ConcreteFlyweight(intrinsic_state)
-        return self._flyweights[intrinsic_state]
+    public Flyweight getFlyweight(String intrinsicState) {
+        if (!flyweights.containsKey(intrinsicState)) {
+            flyweights.put(intrinsicState, new ConcreteFlyweight(intrinsicState));
+        }
+        return flyweights.get(intrinsicState);
+    }
+}
 
-class ClientClass:
-    def __init__(self, factory, intrinsic_state, extrinsic_state):
-        self.flyweitht = factory.get_flyweight(intrinsic_state) 
-        self.extrinsic_state = extrinsic_state
+// ClientClass
+class ClientClass {
+    public Flyweight flyweight;
+    public String extrinsicState;
 
-    def operation(self):
-        print("Operation inside context.")
-        self.flyweitht.operation(self.extrinsic_state)
+    public ClientClass(FlyweightFactory factory, String intrinsicState, String extrinsicState) {
+        this.flyweight = factory.getFlyweight(intrinsicState);
+        this.extrinsicState = extrinsicState;
+    }
 
+    public void operation() {
+        System.out.println("Operation inside context: " + this);
+        flyweight.operation(extrinsicState);
+    }
+}
 
+// Main class
+public class Flyweight2 {
+    public static void main(String[] args) {
+        FlyweightFactory factory = new FlyweightFactory();
+        ClientClass c = new ClientClass(factory, "common", "separate1");
+        c.operation();
+        ClientClass c2 = new ClientClass(factory, "common", "separate2");
+        c2.operation();
+    }
+}
+/*
+Operation inside context: ClientClass@8bcc55f
+Operation inside concrete flyweight: ConcreteFlyweight@58644d46
+Operation inside context: ClientClass@14dad5dc
+Operation inside concrete flyweight: ConcreteFlyweight@58644d46
 
-# Client code
-factory = FlyweightFactory()
-c = ClientClass(factory, "common", "separate1")
-c.operation()
+*/
 
-c2 = ClientClass(factory, "common", "separate2")
-c2.operation()
-
-print(c, c2)
-print(c.flyweitht, c2.flyweitht)

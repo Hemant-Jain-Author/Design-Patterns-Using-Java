@@ -1,73 +1,98 @@
-# Model
-class Model:
-    def __init__(self):
-        self._data = None
+import java.util.Scanner;
 
-    def set_data(self, data):
-        print("Model: Set data.")
-        self._data = data
+// Model
+class Model {
+    private String data;
 
-    def get_data(self):
-        print("Model: Get data.")
-        return self._data
+    public void setData(String data) {
+        System.out.println("Model: Set data.");
+        this.data = data;
+    }
+
+    public String getData() {
+        System.out.println("Model: Get data.");
+        return data;
+    }
+}
+
+// ViewModel
+class ViewModel {
+    private Model model;
+    private String data;
+
+    public ViewModel(Model model) {
+        this.model = model;
+        updateData();
+    }
+
+    public void updateModel(String data) {
+        System.out.println("ViewModel: Update data.");
+        model.setData(data);
+        updateData();
+    }
+
+    public void updateData() {
+        System.out.println("ViewModel: Fetch data.");
+        data = model.getData();
+    }
+
+    public String getData() {
+        return data;
+    }
+}
+
+// View
+class View {
+    private ViewModel viewModel;
+
+    public View(ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void displayData() {
+        System.out.println("Display Data: " + viewModel.getData());
+    }
+
+    public void getUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("View: Enter user input: ");
+        /* 
+        String userInput = "hello, world!";
+        System.out.println(userInput);
+        */
+        String userInput = scanner.nextLine();
+        viewModel.updateModel(userInput);
+    }
+}
+
+// Client code
+public class MVVM {
+    public static void main(String[] args) {
+        Model model = new Model();
+        ViewModel viewModel = new ViewModel(model);
+        View view = new View(viewModel);
+
+        // Display initial data
+        view.displayData();
+
+        // Get user input and update data
+        view.getUserInput();
+
+        // Display updated data
+        view.displayData();
+    }
+}
 
 
-# ViewModel
-class ViewModel:
-    def __init__(self, model):
-        self.model = model
-        self.data = None
-        self.update_data()
 
-    def update_model(self, data):
-        print("ViewModel: Update data.")
-        self.model.set_data(data)
-        self.update_data()
-
-    def update_data(self):
-        print("ViewModel: Fetch data.")
-        self.data = self.model.get_data()
-
-
-# View
-class View:
-    def __init__(self, view_model):
-        self.view_model = view_model
-
-    def display_data(self):
-        print("Display Data:", self.view_model.data)
-
-    def get_user_input(self):
-        user_input = input("Enter data: ")
-        self.view_model.update_model(user_input)
-
-
-# Client code
-model = Model()
-view_model = ViewModel(model)
-view = View(view_model)
-
-# Display initial data
-view.display_data()
-
-# Get user input and update data
-view.get_user_input()
-
-# Fetch updated data
-view_model.update_data()
-
-# Display updated data
-view.display_data()
-
-
-"""
+/*
 ViewModel: Fetch data.
 Model: Get data.
-Display Data: None
-Enter data: Hello, world!
+Display Data: null
+View: Enter user input: hello, world!
 ViewModel: Update data.
 Model: Set data.
 ViewModel: Fetch data.
 Model: Get data.
-Display Data: Hello, world!
-"""
+Display Data: hello, world!
+*/

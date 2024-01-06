@@ -1,44 +1,72 @@
-from abc import ABC, abstractmethod
+// Component
+interface Component {
+    void operation();
+}
 
-class Component(ABC):
-    @abstractmethod
-    def operation(self):
-        pass
+// ConcreteComponent
+class ConcreteComponent implements Component {
+    @Override
+    public void operation() {
+        System.out.println("ConcreteComponent operation.");
+    }
+}
 
-class ConcreteComponent(Component):
-    def operation(self):
-        print("ConcreteComponent operation.")
+// Decorator
+abstract class Decorator implements Component {
+    private Component component;
 
-class Decorator(Component):
-    def __init__(self, component):
-        self._component = component
+    public Decorator(Component component) {
+        this.component = component;
+    }
 
-    @abstractmethod
-    def operation(self):
-        pass
+    @Override
+    public void operation() {
+        component.operation();
+    }
+}
 
-class ConcreteDecorator1(Decorator):
-    def operation(self):
-        print("ConcreteDecorator1 operation start.")
-        self._component.operation()
-        print("ConcreteDecorator1 operation end.")
+// ConcreteDecorator1
+class ConcreteDecorator1 extends Decorator {
+    public ConcreteDecorator1(Component component) {
+        super(component);
+    }
 
-class ConcreteDecorator2(Decorator):
-    def operation(self):
-        print("ConcreteDecorator2 operation start.")
-        self._component.operation()
-        print("ConcreteDecorator2 operation end.")
+    @Override
+    public void operation() {
+        System.out.println("ConcreteDecorator1 operation start.");
+        super.operation();
+        System.out.println("ConcreteDecorator1 operation end.");
+    }
+}
 
-#Client code.
-component = ConcreteComponent()
-decorator1 = ConcreteDecorator1(component)
-decorator2 = ConcreteDecorator2(decorator1)
-decorator2.operation()
+// ConcreteDecorator2
+class ConcreteDecorator2 extends Decorator {
+    public ConcreteDecorator2(Component component) {
+        super(component);
+    }
 
-"""
+    @Override
+    public void operation() {
+        System.out.println("ConcreteDecorator2 operation start.");
+        super.operation();
+        System.out.println("ConcreteDecorator2 operation end.");
+    }
+}
+
+// Client code
+public class DecoratorPattern {
+    public static void main(String[] args) {
+        Component component = new ConcreteComponent();
+        Decorator decorator1 = new ConcreteDecorator1(component);
+        Decorator decorator2 = new ConcreteDecorator2(decorator1);
+        decorator2.operation();
+    }
+}
+
+/*
 ConcreteDecorator2 operation start.
 ConcreteDecorator1 operation start.
 ConcreteComponent operation.
 ConcreteDecorator1 operation end.
 ConcreteDecorator2 operation end.
-"""
+ */

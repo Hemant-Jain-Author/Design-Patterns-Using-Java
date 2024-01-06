@@ -1,26 +1,28 @@
-class A(object):  
-    def __init__(self):
-        print("A created")
+class A {
+    public A() {
+        System.out.println("A created");
+    }
 
-    def fun1(self): # member function
-        print("fun1")
-    
-    def __del__(self): 
-        print('A destroyed') 
+    public void fun1() {
+        System.out.println("fun1");
+    }
+}
 
+class B {
+    public B() {
+        System.out.println("B created");
+    }
 
-class B(object):
-    def __init__(self): #constructor
-        print("B created")
+    public void fun2() {
+        System.out.println("fun2 start");
+        new A().fun1();
+        System.out.println("fun2 end");
+    }
+}
 
-    def fun2(self):
-        print("fun2 start")
-        A().fun1()
-        print("fun2 end")
-    
-    def __del__(self): 
-        print('B destroyed') 
-
-# Client code.
-c = B()
-c.fun2()
+public class UsingRelationship {
+    public static void main(String[] args) {
+        B b = new B();
+        b.fun2();
+    }
+}

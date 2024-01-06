@@ -1,25 +1,48 @@
-class HealthCheck:
-    _instance = None
-    # _servers = []
+import java.util.ArrayList;
+import java.util.List;
 
-    def __new__(cls):
-        if not HealthCheck._instance:
-            HealthCheck._instance = super(HealthCheck, cls).__new__(cls)
-            cls._servers = []
-        return HealthCheck._instance
+public class HealthCheckSingleton {
+    private static HealthCheckSingleton instance;
+    private List<String> servers;
 
-    def addServer(self):
-        self._servers.append("Server 1")
-        self._servers.append("Server 2")
+    private HealthCheckSingleton() {
+        this.servers = new ArrayList<>();
+    }
 
-    def changeServer(self):
-        self._servers.pop()
-        self._servers.append("Server 5")
+    public static HealthCheckSingleton getInstance() {
+        if (instance == null) {
+            instance = new HealthCheckSingleton();
+        }
+        return instance;
+    }
 
-# Client code. 
-hc1 = HealthCheck()
-hc1.addServer()
-hc2 = HealthCheck()
-hc2.addServer()
-print(hc1._servers)
-print(hc2._servers)
+    public void addServer() {
+        this.servers.add("Server 1");
+        this.servers.add("Server 2");
+    }
+
+    public void changeServer() {
+        this.servers.remove(this.servers.size() - 1);
+        this.servers.add("Server 5");
+    }
+
+    public List<String> getServers() {
+        return this.servers;
+    }
+
+    public static void main(String[] args) {
+        HealthCheckSingleton hc1 = HealthCheckSingleton.getInstance();
+        hc1.addServer();
+
+        HealthCheckSingleton hc2 = HealthCheckSingleton.getInstance();
+        hc2.addServer();
+
+        System.out.println(hc1.getServers());
+        System.out.println(hc2.getServers());
+    }
+}
+
+/*
+[Server 1, Server 2, Server 1, Server 2]
+[Server 1, Server 2, Server 1, Server 2]
+ */

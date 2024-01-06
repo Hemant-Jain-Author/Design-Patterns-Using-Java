@@ -1,50 +1,67 @@
-# Model View Presenter
-class Model(object):
-    def __init__(self):
-        self.data = 'Hello, World!'
+class Model {
+    private String data;
 
-    def set_data(self, data):
-        print("Model: Set data :", data)
-        self.data = data
+    public Model() {
+        this.data = "Hello, World!";
+    }
 
-    def get_data(self):
-        print("Model: Get data: ", self.data)
-        return self.data
+    public void setData(String data) {
+        System.out.println("Model: Set data : " + data);
+        this.data = data;
+    }
 
-class View(object):
-    def update(self, data):
-        print("View: Updating the view with data: ", data)
+    public String getData() {
+        System.out.println("Model: Get data: " + data);
+        return data;
+    }
+}
 
-class Presenter(object):
-    def __init__(self):
-        self.model = Model()
-        self.view = View()
+class View {
+    public void update(String data) {
+        System.out.println("View: Updating the view with data: " + data);
+    }
+}
 
-    def set_data(self, data):
-        print("Presenter: Receive data from client.")
-        self.model.set_data(data)
+class Presenter {
+    private Model model;
+    private View view;
 
-    def update_view(self):
-        print("Presenter: Receive update view from client.")
-        data = self.model.get_data()
-        self.view.update(data)
+    public Presenter() {
+        this.model = new Model();
+        this.view = new View();
+    }
 
-# Client code
-print("Client: Pass trigger to Presenter.")
-presenter = Presenter()
-presenter.update_view()
+    public void setData(String data) {
+        System.out.println("Presenter: Receive data from client.");
+        model.setData(data);
+    }
 
-presenter.set_data("Hello, Students!")
-presenter.update_view()
+    public void updateView() {
+        System.out.println("Presenter: Receive update view from client.");
+        String data = model.getData();
+        view.update(data);
+    }
+}
 
-"""
+public class MVPPattern {
+    public static void main(String[] args) {
+        System.out.println("Client: Pass trigger to Presenter.");
+        Presenter presenter = new Presenter();
+        presenter.updateView();
+
+        presenter.setData("Hello, Students!");
+        presenter.updateView();
+    }
+}
+
+/*
 Client: Pass trigger to Presenter.
 Presenter: Receive update view from client.
-Model: Get data:  Hello, World!
-View: Updating the view with data:  Hello, World!
+Model: Get data: Hello, World!
+View: Updating the view with data: Hello, World!
 Presenter: Receive data from client.
 Model: Set data : Hello, Students!
 Presenter: Receive update view from client.
-Model: Get data:  Hello, Students!
-View: Updating the view with data:  Hello, Students!
-"""
+Model: Get data: Hello, Students!
+View: Updating the view with data: Hello, Students!
+*/

@@ -1,39 +1,55 @@
-from abc import ABC, abstractmethod
+import java.util.HashMap;
+import java.util.Map;
 
-class Flyweight(ABC):
-    def __init__(self, intrinsic_state):
-        self.intrinsic_state = intrinsic_state  # intrinsic state
+// Flyweight interface
+interface Flyweight {
+    void operation(Object extrinsicState);
+}
 
-    @abstractmethod
-    def operation(self, extrinsic_state): # extrinsic state
-        pass
+// Concrete Flyweight class
+class ConcreteFlyweight implements Flyweight {
+    private String intrinsicState;
 
-class ConcreteFlyweight(Flyweight):
-    def operation(self, extrinsic_state):
-        print("Operation inside concrete flyweight")
+    public ConcreteFlyweight(String intrinsicState) {
+        this.intrinsicState = intrinsicState;
+    }
 
-class FlyweightFactory:
-    def __init__(self):
-        self._flyweights = {}
+    @Override
+    public void operation(Object extrinsicState) {
+        System.out.println("Operation inside concrete flyweight");
+    }
+}
 
-    def get_flyweight(self, key):
-        if key not in self._flyweights:
-            self._flyweights[key] = ConcreteFlyweight(key)
-        return self._flyweights[key]
-    
-    def get_count(self):
-        return len(self._flyweights)
+// FlyweightFactory class
+class FlyweightFactory {
+    private Map<String, Flyweight> flyweights = new HashMap<>();
 
-# Client code.
-factory = FlyweightFactory()
-flyweight1 = factory.get_flyweight("key")
-flyweight2 = factory.get_flyweight("key")
-flyweight1.operation(None)
-print(flyweight1, flyweight2)
-print("Object count:", factory.get_count())
+    public Flyweight getFlyweight(String key) {
+        if (!flyweights.containsKey(key)) {
+            flyweights.put(key, new ConcreteFlyweight(key));
+        }
+        return flyweights.get(key);
+    }
 
-"""
+    public int getCount() {
+        return flyweights.size();
+    }
+}
+
+// Client code
+public class FlyweightPattern {
+    public static void main(String[] args) {
+        FlyweightFactory factory = new FlyweightFactory();
+        Flyweight flyweight1 = factory.getFlyweight("key");
+        Flyweight flyweight2 = factory.getFlyweight("key");
+        flyweight1.operation(null);
+        System.out.println(flyweight1 + " " + flyweight2);
+        System.out.println("Object count: " + factory.getCount());
+    }
+}
+
+/* 
 Operation inside concrete flyweight
-<__main__.ConcreteFlyweight object at 0x000002A12546BBB0> <__main__.ConcreteFlyweight object at 0x000002A12546BBB0>
+ConcreteFlyweight@73d16e93 ConcreteFlyweight@73d16e93
 Object count: 1
-"""
+*/

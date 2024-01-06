@@ -1,59 +1,64 @@
+import java.util.HashMap;
+import java.util.Map;
 
-from abc import ABC, abstractmethod
-import copy
+abstract class Prototype implements Cloneable {
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
-class Prototype(ABC):
-    def __init__(self):
-        pass
+    abstract void display();
+}
 
-    @abstractmethod
-    def clone(self):
-        pass
+class ConcretePrototype1 extends Prototype {
+    @Override
+    void display() {
+        System.out.println("ConcretePrototype1");
+    }
+}
 
-class ConcretePrototype1(Prototype):
-    def clone(self):
-        # ConcretePrototype1 clone
-        return copy.deepcopy(self)
-    
-    def __str__(self):
-        return "ConcretePrototype1"
+class ConcretePrototype2 extends Prototype {
+    @Override
+    void display() {
+        System.out.println("ConcretePrototype2");
+    }
+}
 
-class ConcretePrototype2(Prototype):
-    def clone(self):
-        # ConcretePrototype2 clone
-        return copy.deepcopy(self)
-    
-    def __str__(self):
-        return "ConcretePrototype2"
-    
+class PrototypeRegistry {
+    private static final Map<String, Prototype> prototypes = new HashMap<>();
 
-class PrototypeRegistry:
-    _prototypes = {}
+    static {
+        load();
+    }
 
-    @staticmethod
-    def add_prototype(key, value):
-        if key not in PrototypeRegistry._prototypes:
-            PrototypeRegistry._prototypes[key] = value
-    
-    @staticmethod
-    def get_prototype(key):
-        if key  in PrototypeRegistry._prototypes:
-            return PrototypeRegistry._prototypes[key].clone()
-        return None
+    static void addPrototype(String key, Prototype value) {
+        prototypes.put(key, value);
+    }
 
-    @staticmethod
-    def load():
-        PrototypeRegistry.add_prototype("CP1", ConcretePrototype1())
-        PrototypeRegistry.add_prototype("CP2", ConcretePrototype2())
+    static Prototype getPrototype(String key) throws CloneNotSupportedException {
+        if (prototypes.containsKey(key)) {
+            return (Prototype) prototypes.get(key).clone();
+        }
+        return null;
+    }
 
-# Client code
-PrototypeRegistry.load()
-c1 = PrototypeRegistry.get_prototype("CP1")
-c2 = PrototypeRegistry.get_prototype("CP2")
-print(c1)
-print(c2)
+    static void load() {
+        addPrototype("CP1", new ConcretePrototype1());
+        addPrototype("CP2", new ConcretePrototype2());
+    }
+}
 
-"""
+public class PrototypePattern {
+    public static void main(String[] args) throws CloneNotSupportedException {
+        PrototypeRegistry.load();
+        Prototype c1 = PrototypeRegistry.getPrototype("CP1");
+        Prototype c2 = PrototypeRegistry.getPrototype("CP2");
+        c1.display();
+        c2.display();
+    }
+}
+
+/*
 ConcretePrototype1
 ConcretePrototype2
-"""
+*/

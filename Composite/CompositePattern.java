@@ -1,42 +1,50 @@
+import java.util.HashSet;
+import java.util.Set;
 
-from abc import ABC, abstractmethod
+// Component
+abstract class Component {
+    public abstract void operation();
+}
 
-class Component(ABC):
-    @abstractmethod
-    def operation(self):
-        pass
+// Composite
+class Composite extends Component {
+    private Set<Component> children = new HashSet<>();
 
-class Composite(Component):
-    def __init__(self):
-        self._children = set()
+    @Override
+    public void operation() {
+        System.out.println("Composite Operation");
+        for (Component child : children) {
+            child.operation();
+        }
+    }
 
-    def operation(self):
-        print("Composite Operation")
-        for child in self._children:
-            child.operation()
+    public void add(Component component) {
+        children.add(component);
+    }
 
-    def add(self, component):
-        self._children.add(component)
+    public void remove(Component component) {
+        children.remove(component);
+    }
+}
 
-    def remove(self, component):
-        self._children.discard(component)
+// Leaf
+class Leaf extends Component {
+    @Override
+    public void operation() {
+        System.out.println("Leaf Operation");
+    }
+}
 
+// Client code
+public class CompositePattern {
+    public static void main(String[] args) {
+        Composite composite = new Composite();
+        composite.add(new Leaf());
 
-class Leaf(Component):
-    def operation(self):
-        print("Leaf Operation")
+        Composite composite2 = new Composite();
+        composite2.add(new Leaf());
 
-# Client code.
-composite = Composite()
-composite.add(Leaf())
-composite2 = Composite()
-composite2.add(Leaf())
-composite.add(composite2)
-composite.operation()
-
-"""
-Composite Operation
-Composite Operation
-Leaf Operation
-Leaf Operation
-"""
+        composite.add(composite2);
+        composite.operation();
+    }
+}

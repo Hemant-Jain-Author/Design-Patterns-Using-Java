@@ -1,38 +1,54 @@
-class SystemManagerFacade:
-    def __init__(self):
-        self._subsystem1 = Subsystem1()
-        self._subsystem2 = Subsystem2()
+// Subsystem1
+class Subsystem1 {
+    public void operation1() {
+        System.out.println("Subsystem1 operation1");
+    }
 
-    def operation(self):
-        self._subsystem1.operation1()
-        self._subsystem1.operation2()
-        self._subsystem2.operation1()
-        self._subsystem2.operation2()
+    public void operation2() {
+        System.out.println("Subsystem1 operation2");
+    }
+}
 
-class Subsystem1:
-    def operation1(self):
-        print("Subsystem1 operation1")
+// Subsystem2
+class Subsystem2 {
+    public void operation1() {
+        System.out.println("Subsystem2 operation1");
+    }
 
-    def operation2(self):
-        print("Subsystem1 operation2")
+    public void operation2() {
+        System.out.println("Subsystem2 operation2");
+    }
+}
 
+// SystemManagerFacade
+class SystemManagerFacade {
+    private Subsystem1 subsystem1;
+    private Subsystem2 subsystem2;
 
-class Subsystem2:
-    def operation1(self):
-        print("Subsystem2 operation1")
+    public SystemManagerFacade() {
+        this.subsystem1 = new Subsystem1();
+        this.subsystem2 = new Subsystem2();
+    }
 
-    def operation2(self):
-        print("Subsystem2 operation2")
+    public void operation() {
+        subsystem1.operation1();
+        subsystem1.operation2();
+        subsystem2.operation1();
+        subsystem2.operation2();
+    }
+}
 
-# Client code
-facade = SystemManagerFacade()
-facade.operation()
+// Client code
+public class Facad {
+    public static void main(String[] args) {
+        SystemManagerFacade facade = new SystemManagerFacade();
+        facade.operation();
+    }
+}
 
-"""
-Output:
+/*
 Subsystem1 operation1
 Subsystem1 operation2
 Subsystem2 operation1
 Subsystem2 operation2
-
-"""
+*/

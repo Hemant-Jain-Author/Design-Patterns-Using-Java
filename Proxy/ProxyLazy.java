@@ -1,23 +1,29 @@
-from abc import ABC, abstractmethod
+interface Subject {
+    void request();
+}
 
-class Subject(ABC):
-    @abstractmethod
-    def request(self):
-        pass
+class RealSubject implements Subject {
+    @Override
+    public void request() {
+        System.out.println("Concrete Subject Request Method");
+    }
+}
 
-class RealSubject(Subject):
-    def request(self):
-        print("Concrete Subject Request Method")
+class Proxy implements Subject {
+    private RealSubject realSubject;
 
-class Proxy(Subject):
-    def __init__(self):
-        self._subject = None
+    @Override
+    public void request() {
+        if (realSubject == null) {
+            realSubject = new RealSubject(); // Lazy Initialization
+        }
+        realSubject.request();
+    }
+}
 
-    def request(self):
-        if self._subject == None :
-            self._subject = RealSubject() # Lazy Init
-        self._subject.request()
-
-# Client code
-proxy = Proxy()
-proxy.request()
+public class ProxyLazy {
+    public static void main(String[] args) {
+        Proxy proxy = new Proxy();
+        proxy.request();
+    }
+}

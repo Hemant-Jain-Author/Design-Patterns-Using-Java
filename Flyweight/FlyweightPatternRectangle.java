@@ -1,34 +1,53 @@
-from abc import ABC, abstractmethod
-import random
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
-class Shape(ABC):
-    def __init__(self, colour):
-        self._colour = colour # Intrinsic State
+// Shape interface
+interface Shape {
+    void draw(int x1, int y1, int x2, int y2);
+}
 
-    @abstractmethod
-    def draw(self, x1, y1, x2, y2): # Extrinsic State
-        print
+// Rectangle class implementing Shape
+class Rectangle implements Shape {
+    private String colour;
 
-class Rectange(Shape):
-    def draw(self, x1, y1, x2, y2):
-        print("Draw rectange colour:%s topleft: (%s,%s) rightBottom: (%s,%s)"%(self._colour,x1, y1, x2, y2) )
+    public Rectangle(String colour) {
+        this.colour = colour;
+    }
 
-class RectangeFactory:
-    def __init__(self):
-        self._shapes = {}
+    @Override
+    public void draw(int x1, int y1, int x2, int y2) {
+        System.out.printf("Draw rectangle colour: %s topleft: (%s,%s) rightBottom: (%s,%s)%n", 
+            this.colour, x1, y1, x2, y2);
+    }
+}
 
-    def get_rectange(self, colour):
-        if colour not in self._shapes:
-            self._shapes[colour] = Rectange(colour)
-        return self._shapes[colour]
-    
-    def get_count(self):
-        return len(self._shapes)
+// RectangleFactory class
+class RectangleFactory {
+    private Map<String, Shape> shapes = new HashMap<>();
 
-# Client code.
-factory = RectangeFactory()
-for i in range(1000):
-    rect = factory.get_rectange(random.randint(1,1000))
-    rect.draw(random.randint(1,100), random.randint(1,100), random.randint(1,100), random.randint(1,100))
-print(factory.get_count())
+    public Shape getRectangle(String colour) {
+        if (!shapes.containsKey(colour)) {
+            shapes.put(colour, new Rectangle(colour));
+        }
+        return shapes.get(colour);
+    }
 
+    public int getCount() {
+        return shapes.size();
+    }
+}
+
+// Client code
+public class FlyweightPatternRectangle {
+    public static void main(String[] args) {
+        RectangleFactory factory = new RectangleFactory();
+        Random random = new Random();
+
+        for (int i = 0; i < 100; i++) {
+            Shape rectangle = factory.getRectangle(Integer.toString(random.nextInt(1000)));
+            rectangle.draw(random.nextInt(100), random.nextInt(100), random.nextInt(100), random.nextInt(100));
+        }
+        System.out.println(factory.getCount());
+    }
+}

@@ -1,52 +1,77 @@
+class Student {
+    private String name;
+    private int id;
 
-class Student:
-    def __init__(self, name, id):
-        self.name = name
-        self.id = id
+    public Student(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
 
-class Model(object):
-    # Dummy model which just have one object.  
-    # Model is supposed to interact with database.
-    def __init__(self):
-        self.st = Student("Harry", 1)
+    public String getName() {
+        return name;
+    }
 
-    def set_data(self, name, id):
-        print("Model: Set data :", name, id)
-        self.st.name = name
-        self.st.id = id
+    public int getId() {
+        return id;
+    }
+}
 
-    def get_data(self):
-        print("Model: Get data.")
-        return self.st
+class Model {
+    private Student student;
 
-class View(object):
-    # Dummy view which is print some data to standard output.
-    # View is supposed to intaract the UI. 
-    def update(self, name, id):
-        print("View: Student Info :", name , id)
+    public Model() {
+        this.student = new Student("Harry", 1);
+    }
 
-class Presenter(object):
-    def __init__(self):
-        self.model = Model()
-        self.view = View()
+    public void setData(String name, int id) {
+        System.out.println("Model: Set data : " + name + " " + id);
+        this.student = new Student(name, id);
+    }
 
-    def set_data(self, name, id):
-        print("Presenter: Receive data from client.")
-        self.model.set_data(name, id)
+    public Student getData() {
+        System.out.println("Model: Get data.");
+        return student;
+    }
+}
 
-    def update_view(self):
-        print("Presenter: Receive update from client.")
-        data = self.model.get_data()
-        self.view.update(data.name, data.id)
+class View {
+    public void update(String name, int id) {
+        System.out.println("View: Student Info : " + name + " " + id);
+    }
+}
 
-# Client code
-presenter = Presenter()
-presenter.update_view()
+class Presenter {
+    private Model model;
+    private View view;
 
-presenter.set_data("jack", 2)
-presenter.update_view()
+    public Presenter() {
+        this.model = new Model();
+        this.view = new View();
+    }
 
-"""
+    public void setData(String name, int id) {
+        System.out.println("Presenter: Receive data from client.");
+        model.setData(name, id);
+    }
+
+    public void updateView() {
+        System.out.println("Presenter: Receive update from client.");
+        Student data = model.getData();
+        view.update(data.getName(), data.getId());
+    }
+}
+
+public class MVPPatternStudent {
+    public static void main(String[] args) {
+        Presenter presenter = new Presenter();
+        presenter.updateView();
+
+        presenter.setData("jack", 2);
+        presenter.updateView();
+    }
+}
+
+/*
 Presenter: Receive update from client.
 Model: Get data.
 View: Student Info : Harry 1
@@ -55,4 +80,4 @@ Model: Set data : jack 2
 Presenter: Receive update from client.
 Model: Get data.
 View: Student Info : jack 2
-"""
+*/

@@ -1,28 +1,48 @@
-class Student(object):
-    def __init__(self, name): #constructor
-        self.name = name #data members / attributes
-    
-    def __str__(self): # member function
-        return "Student: %s" % (self.name)
+import java.util.ArrayList;
+import java.util.List;
 
+class Student {
+    private String name;
 
-class Class(object):
-    def __init__(self, cname): #constructor
-        self.className = cname
-        self.students = []
+    public Student(String name) {
+        this.name = name;
+    }
 
-    def add_student(self, st):
-        self.students.append(st)
+    @Override
+    public String toString() {
+        return "Student: " + name;
+    }
+}
 
-    def display(self):
-        for i in self.students:
-            print(i)
+class SchoolClass {
+    private String className;
+    private List<Student> students;
 
-# Client coode
-c = Class("SS1")
-s1 = Student("John Smith")
-s2 = Student("Jane Smith")
-c.add_student(s1)
-c.add_student(s2)
-c.display()
+    public SchoolClass(String className) {
+        this.className = className;
+        this.students = new ArrayList<>();
+    }
 
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public void display() {
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+}
+
+public class AssociationRelationship {
+    public static void main(String[] args) {
+        SchoolClass schoolClass = new SchoolClass("SS1");
+        Student student1 = new Student("John Smith");
+        Student student2 = new Student("Jane Smith");
+
+        schoolClass.addStudent(student1);
+        schoolClass.addStudent(student2);
+
+        schoolClass.display();
+    }
+}

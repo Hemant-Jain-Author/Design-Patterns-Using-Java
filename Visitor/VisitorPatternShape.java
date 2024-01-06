@@ -1,93 +1,130 @@
-from abc import ABC, abstractmethod
+import java.util.ArrayList;
+import java.util.List;
 
-class Shape(ABC): 
-    @abstractmethod
-    def accept(self, visitor):
-        pass
+abstract class Shape {
+    abstract void accept(Visitor visitor);
+}
 
-class Circle(Shape):
-    def __init__(self, x, y, radius):
-        self.x = x
-        self.y = y
-        self.radius = radius
-        
-    def accept(self, visitor):
-        return visitor.visit_circle(self)
+class Circle extends Shape {
+    private int x, y, radius;
 
-class Rectangle(Shape):
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    public Circle(int x, int y, int radius) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
 
-    def accept(self, visitor):
-        return visitor.visit_rectange(self)
+    @Override
+    void accept(Visitor visitor) {
+        visitor.visitCircle(this);
+    }
 
-class Visitor(ABC):
-    def visit_circle(self, element):
-        pass
+    public int getX() {
+        return x;
+    }
 
-    def visit_rectange(self, element):
-        pass
-        
-class XMLVisitor(Visitor):
-    def visit_circle(self, element):
-        return "<circle>\n  <x>%s</x>\n  <y>%s</y>\n  <radius>%s</radius>\n</circle>"%(element.x, element.y, element.radius) 
+    public int getY() {
+        return y;
+    }
 
-    def visit_rectange(self, element):
-        return "<rectangle>\n  <x>%s</x>\n  <y>%s</y>\n  <width>%s</width>\n  <height>%s</height>\n</rectangle>"%(element.x, element.y, element.width, element.height)
+    public int getRadius() {
+        return radius;
+    }
+}
 
-class TextVisitor(Visitor):
-    def visit_circle(self, element):
-        return "Circle ( (x : %s, y : %s), radius : %s) "%(element.x, element.y, element.radius)
+class Rectangle extends Shape {
+    private int x, y, width, height;
 
-    def visit_rectange(self, element):
-        return "Rectangle ( (x : %s, y : %s), width : %s, height : %s)"%(element.x, element.y, element.width, element.height)
+    public Rectangle(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
 
-class ObjectsStructure:
-    def __init__(self):
-        self.shapes = []
+    @Override
+    void accept(Visitor visitor) {
+        visitor.visitRectangle(this);
+    }
 
-    def add_shapes(self, shape):
-        self.shapes.append(shape)
+    public int getX() {
+        return x;
+    }
 
-    def set_visitor(self, visitor):
-        self.visitor = visitor
+    public int getY() {
+        return y;
+    }
 
-    def accept(self):
-        for shape in self.shapes:
-            print(shape.accept(self.visitor))
+    public int getWidth() {
+        return width;
+    }
 
-# Test Code
-os = ObjectsStructure()
-os.add_shapes(Rectangle(6,7,8,9))
-os.add_shapes(Circle(6,7,8))
-os.set_visitor(XMLVisitor())
-os.accept()
+    public int getHeight() {
+        return height;
+    }
+}
 
-os.set_visitor(TextVisitor())
-os.accept()
+abstract class Visitor {
+    abstract void visitCircle(Circle circle);
+    abstract void visitRectangle(Rectangle rectangle);
+}
 
-"""
-Output:
-<rectangle>
-  <x>6</x>
-  <y>7</y>
-  <width>8</width>
-  <height>9</height>
-</rectangle>
-<circle>
-  <x>6</x>
-  <y>7</y>
-  <radius>8</radius>
-</circle>
-<dot>
-  <x>6</x>
-  <y>7</y>
-</dot>
+class XMLVisitor extends Visitor {
+    @Override
+    void visitCircle(Circle circle) {
+        System.out.printf("<circle>\n  <x>%d</x>\n  <y>%d</y>\n  <radius>%d</radius>\n</circle>%n",
+                          circle.getX(), circle.getY(), circle.getRadius());
+    }
 
-Rectangle ( (x : 6, y : 7), width : 8, height : 9)
-Circle ( (x : 6, y : 7), radius : 8) 
-Dot ( x : 6, y : 7)
-"""
+    @Override
+    void visitRectangle(Rectangle rectangle) {
+        System.out.printf("<rectangle>\n  <x>%d</x>\n  <y>%d</y>\n  <width>%d</width>\n  <height>%d</height>\n</rectangle>%n",
+                          rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+    }
+}
+
+class TextVisitor extends Visitor {
+    @Override
+    void visitCircle(Circle circle) {
+        System.out.printf("Circle ( (x : %d, y : %d), radius : %d) %n", circle.getX(), circle.getY(), circle.getRadius());
+    }
+
+    @Override
+    void visitRectangle(Rectangle rectangle) {
+        System.out.printf("Rectangle ( (x : %d, y : %d), width : %d, height : %d) %n",
+                          rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+    }
+}
+
+class ObjectsStructure {
+    private List<Shape> shapes = new ArrayList<>();
+    private Visitor visitor;
+
+    public void addShape(Shape shape) {
+        shapes.add(shape);
+    }
+
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
+
+    public void accept() {
+        for (Shape shape : shapes) {
+            shape.accept(visitor);
+        }
+    }
+}
+
+public class VisitorPatternShape {
+    public static void main(String[] args) {
+        ObjectsStructure os = new ObjectsStructure();
+        os.addShape(new Rectangle(6, 7, 8, 9));
+        os.addShape(new Circle(6, 7, 8));
+
+        os.setVisitor(new XMLVisitor());
+        os.accept();
+
+        os.setVisitor(new TextVisitor());
+        os.accept();
+    }
+}

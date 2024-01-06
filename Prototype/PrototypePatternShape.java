@@ -1,58 +1,91 @@
+import java.util.HashMap;
+import java.util.Map;
 
-from abc import ABC, abstractmethod
-import copy
+abstract class Shape implements Cloneable {
+    private String color;
 
-class Shape(ABC):
-    def __init__(self):
-        self._color = ""
-    
-    @abstractmethod
-    def __str__(self):
-        return "Shape"
-    
-    @abstractmethod
-    def clone(self):
-        pass
+    public Shape() {
+        this.color = "";
+    }
 
-class Rectangle(Shape):
-    def clone(self):
-        return copy.deepcopy(self)
+    @Override
+    public abstract String toString();
 
-    def __str__(self):
-        return "Rectangle."
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
-class Circle(Shape):
-    def clone(self):
-        return copy.deepcopy(self)
+    public abstract Shape cloneShape();
+}
 
-    def __str__(self):
-        return "Circle."
+class Rectangle extends Shape {
+    @Override
+    public String toString() {
+        return "Rectangle.";
+    }
 
-class ShapeRegistry:
-    _shapes = {}
+    @Override
+    public Shape cloneShape() {
+        try {
+            return (Shape) this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
 
-    @staticmethod
-    def add_shape(key, value):
-        if key not in ShapeRegistry._shapes:
-            ShapeRegistry._shapes[key] = value
-    
-    @staticmethod
-    def get_shape(key):
-        if key  in ShapeRegistry._shapes:
-            return ShapeRegistry._shapes[key].clone()
-        return None
+class Circle extends Shape {
+    @Override
+    public String toString() {
+        return "Circle.";
+    }
 
-    @staticmethod
-    def load():
-        ShapeRegistry.add_shape("circle", Circle())
-        ShapeRegistry.add_shape("rectangle", Rectangle())
+    @Override
+    public Shape cloneShape() {
+        try {
+            return (Shape) this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
 
-# Client code
-ShapeRegistry.load()
-c = ShapeRegistry.get_shape("circle")
-r = ShapeRegistry.get_shape("rectangle")
-print(c, r)
+class ShapeRegistry {
+    private static final Map<String, Shape> shapes = new HashMap<>();
 
-"""
-Circle. Rectangle.
-"""
+    static {
+        load();
+    }
+
+    static void addShape(String key, Shape value) {
+        shapes.put(key, value);
+    }
+
+    static Shape getShape(String key) {
+        if (shapes.containsKey(key)) {
+            return shapes.get(key).cloneShape();
+        }
+        return null;
+    }
+
+    static void load() {
+        addShape("circle", new Circle());
+        addShape("rectangle", new Rectangle());
+    }
+}
+
+public class PrototypePatternShape {
+    public static void main(String[] args) {
+        ShapeRegistry.load();
+        Shape c = ShapeRegistry.getShape("circle");
+        Shape r = ShapeRegistry.getShape("rectangle");
+        System.out.println(c + " " + r);
+    }
+}
+
+/*
+ Circle. Rectangle.
+ */

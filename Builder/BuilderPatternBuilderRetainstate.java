@@ -1,59 +1,74 @@
-from abc import ABC, abstractmethod
+class Product {
+    private String partA;
+    private String partB;
 
-class Product(object):
-    def __init__(self, A = "A default", B = "B default"):
-        self.partA = A
-        self.partB = B
-        
-    def __str__(self):
-        return ("Product : (%s, %s)"%(self.partA,self.partB))
+    public Product(String A, String B) {
+        this.partA = A;
+        this.partB = B;
+    }
 
-class Builder(ABC):
-    @abstractmethod
-    def set_PartA(self, A):
-        pass
+    @Override
+    public String toString() {
+        return "Product : (" + partA + ", " + partB + ")";
+    }
+}
 
-    @abstractmethod
-    def set_PartB(self, B):
-        pass
+abstract class Builder {
+    public abstract Builder setPartA(String A);
+    public abstract Builder setPartB(String B);
+    public abstract Product getProduct();
+}
 
-    @abstractmethod
-    def get_Product(self):
-        pass
+class ConcreteBuilder extends Builder {
+    private String partA;
+    private String partB;
 
-class ConcreteBuilder(Builder):
-    def set_PartA(self, A):
-        self.partA = A
-        return self  # returning self helps in chaining calls.
+    @Override
+    public ConcreteBuilder setPartA(String A) {
+        this.partA = A;
+        return this; // Returning self helps in chaining calls.
+    }
 
-    def set_PartB(self, B):
-        self.partB = B
-        return self
+    @Override
+    public ConcreteBuilder setPartB(String B) {
+        this.partB = B;
+        return this;
+    }
 
-    def get_Product(self):
-        return Product(self.partA, self.partB)
+    @Override
+    public Product getProduct() {
+        return new Product(partA, partB);
+    }
+}
 
-class Director:
-    def __init__(self, builder):
-        self._builder = builder
+class Director {
+    private Builder builder;
 
-    def construct(self):
-        return self._builder.set_PartA("A1").set_PartB("B1").get_Product() # chining calls
+    public Director(Builder builder) {
+        this.builder = builder;
+    }
 
-    def construct2(self):
-        self._builder.set_PartA("A2")
-        self._builder.set_PartB("B2")
-        return  self._builder.get_Product()
+    public Product construct() {
+        return builder.setPartA("A1").setPartB("B1").getProduct(); // Chaining calls
+    }
 
-# Client code.
-builder = ConcreteBuilder()
-director = Director(builder)
-product = director.construct()
-print(product)
-product2 = director.construct2()
-print(product2)
+    public Product construct2() {
+        builder.setPartA("A2");
+        builder.setPartB("B2");
+        return builder.getProduct();
+    }
+}
 
-"""
-Product : (A1, B1)
-Product : (A2, B2)
-"""
+// Client code
+public class BuilderPatternBuilderRetainstate {
+    public static void main(String[] args) {
+        ConcreteBuilder builder = new ConcreteBuilder();
+        Director director = new Director(builder);
+
+        Product product = director.construct();
+        System.out.println(product);
+
+        Product product2 = director.construct2();
+        System.out.println(product2);
+    }
+}

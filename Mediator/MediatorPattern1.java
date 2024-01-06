@@ -1,76 +1,86 @@
-from abc import ABC, abstractmethod
+import java.util.HashMap;
+import java.util.Map;
 
-class Mediator(ABC):
-    @abstractmethod
-    def add_colleague(self, Colleague):
-        pass
+interface Mediator {
+    void addColleague(Colleague colleague);
+    void sendMessage(String message, String colleagueId);
+}
 
-    @abstractmethod
-    def send_message(self, message, ColleagueId):
-        pass
-    
-        
-class ConcreteMediator(Mediator):
-    def __init__(self):
-        self.Colleagues = {}
-  
-    def add_colleague(self, Colleague):
-        self.Colleagues[Colleague.id] = Colleague
+class ConcreteMediator implements Mediator {
+    private Map<String, Colleague> colleagues = new HashMap<>();
 
-    def send_message(self, message, ColleagueId):
-        print("Mediator pass Message : " + message)
-        self.Colleagues[ColleagueId].receive(message)
+    @Override
+    public void addColleague(Colleague colleague) {
+        colleagues.put(colleague.getId(), colleague);
+    }
 
+    @Override
+    public void sendMessage(String message, String colleagueId) {
+        System.out.println("Mediator pass Message : " + message);
+        colleagues.get(colleagueId).receive(message);
+    }
+}
 
-class Colleague(ABC):
-    @abstractmethod
-    def __init__(self, mediator):
-        pass 
-    
-    @abstractmethod
-    def send(self, message, to):
-        pass
- 
-    @abstractmethod
-    def receive(self, message):
-        pass
+abstract class Colleague {
+    protected Mediator mediator;
+    protected String id;
 
+    public Colleague(Mediator mediator, String id) {
+        this.mediator = mediator;
+        this.id = id;
+    }
 
-class ConcreteColleague1(object):
-    def __init__(self, mediator):
-        self.id = "First"
-        self.mediator = mediator 
-    
-    def send(self, message, to):
-        print(self.id + " Sent Message : " + message)
-        self.mediator.send_message(message, to)
- 
-    def receive(self, message):
-        print(self.id + " Received Message " + message)
+    abstract void send(String message, String to);
 
+    abstract void receive(String message);
 
-class ConcreteColleague2(object):
-    def __init__(self, mediator):
-        self.id = "Second"
-        self.mediator = mediator 
-    
-    def send(self, message, to):
-        print(self.id + " Sent Message : " + message)
-        self.mediator.send_message(message, to)
- 
-    def receive(self, message):
-        print(self.id + " Received Message " + message)
+    public String getId() {
+        return id;
+    }
+}
 
-# Client code.
-mediator = ConcreteMediator()
-first = ConcreteColleague1(mediator)
-mediator.add_colleague(first)
-second = ConcreteColleague2(mediator)
-mediator.add_colleague(second)
-first.send("Hello, World!", "Second")
+class ConcreteColleague1 extends Colleague {
+    public ConcreteColleague1(Mediator mediator) {
+        super(mediator, "First");
+    }
 
-"""
-First Sent Message : Hello, World!
-Mediator pass Message : Hello, World!
-Second Received Message Hello, World!
-"""
+    @Override
+    void send(String message, String to) {
+        System.out.println(id + " Sent Message : " + message);
+        mediator.sendMessage(message, to);
+    }
+
+    @Override
+    void receive(String message) {
+        System.out.println(id + " Received Message " + message);
+    }
+}
+
+class ConcreteColleague2 extends Colleague {
+    public ConcreteColleague2(Mediator mediator) {
+        super(mediator, "Second");
+    }
+
+    @Override
+    void send(String message, String to) {
+        System.out.println(id + " Sent Message : " + message);
+        mediator.sendMessage(message, to);
+    }
+
+    @Override
+    void receive(String message) {
+        System.out.println(id + " Received Message " + message);
+    }
+}
+
+public class MediatorPattern1 {
+    public static void main(String[] args) {
+        ConcreteMediator mediator = new ConcreteMediator();
+        ConcreteColleague1 first = new ConcreteColleague1(mediator);
+        mediator.addColleague(first);
+        ConcreteColleague2 second = new ConcreteColleague2(mediator);
+        mediator.addColleague(second);
+
+        first.send("Hello, World!", "Second");
+    }
+}

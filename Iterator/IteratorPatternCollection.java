@@ -1,32 +1,62 @@
-import collections.abc
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-class ConcreteAggregate(collections.abc.Iterable):
-    def __init__(self):
-        self._data = []
+class ConcreteAggregate implements Iterable<Integer> {
+    private List<Integer> data;
 
-    def add_data(self, val):
-        self._data.append(val)
+    public ConcreteAggregate() {
+        this.data = new ArrayList<>();
+    }
 
-    def __iter__(self):
-        return ConcreteIterator(self)
+    public void addData(int val) {
+        data.add(val);
+    }
 
+    @Override
+    public Iterator<Integer> iterator() {
+        return new ConcreteIterator(this);
+    }
 
-class ConcreteIterator(collections.abc.Iterator):
-    def __init__(self, aggregate):
-        self._aggregate = aggregate
-        self._index = 0
+    public List<Integer> getData() {
+        return data;
+    }
+}
 
-    def __next__(self):
-        if self._index >= len(self._aggregate._data):  # if no_elements_to_traverse:
-            raise StopIteration
-        val = self._aggregate._data[self._index]
-        self._index += 1
-        return val
+class ConcreteIterator implements Iterator<Integer> {
+    private ConcreteAggregate aggregate;
+    private int index;
 
-# Client code
-aggregate = ConcreteAggregate()
-for i in range(10):
-    aggregate.add_data(i)
+    public ConcreteIterator(ConcreteAggregate aggregate) {
+        this.aggregate = aggregate;
+        this.index = 0;
+    }
 
-for val in aggregate:
-    print(val)
+    @Override
+    public boolean hasNext() {
+        return index < aggregate.getData().size();
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) {
+            throw new IndexOutOfBoundsException();
+        }
+        int value = aggregate.getData().get(index);
+        index++;
+        return value;
+    }
+}
+
+public class IteratorPatternCollection {
+    public static void main(String[] args) {
+        ConcreteAggregate aggregate = new ConcreteAggregate();
+        for (int i = 0; i < 10; i++) {
+            aggregate.addData(i);
+        }
+
+        for (int val : aggregate) {
+            System.out.print(val + " ");
+        }
+    }
+}

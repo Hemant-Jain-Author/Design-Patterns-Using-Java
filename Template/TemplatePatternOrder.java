@@ -1,34 +1,46 @@
-from abc import ABC, abstractmethod
+import java.io.*;
 
-class OrderPackingTemplate(ABC):
+abstract class OrderPackingTemplate {
     
-    def pack_product(self): # Final
-        self.get_product()
-        self.add_product_tobox()
-        self.delivery()
+    final void packProduct() {
+        getProduct();
+        addProductToBox();
+        delivery();
+    }
 
-    def get_product(self):
-        print("Get the product form shelf.")
+    void getProduct() {
+        System.out.println("Get the product from the shelf.");
+    }
 
-    def add_product_tobox(self):
-        print("Put the product inside Box.")
-    
-    @abstractmethod
-    def delivery(self):
-        pass
+    void addProductToBox() {
+        System.out.println("Put the product inside the box.");
+    }
 
+    abstract void delivery();
+}
 
-class OnlineOrderPacking(OrderPackingTemplate):
-    def delivery(self):
-        print("Add delivery address slip and ship.")
+class OnlineOrderPacking extends OrderPackingTemplate {
+    @Override
+    void delivery() {
+        System.out.println("Add delivery address slip and ship.");
+    }
+}
 
-class StoreOrderPacking(OrderPackingTemplate):
-    def delivery(self):
-        print("Add thanks message to box and deliver to customer.")
-  
-# Client code. 
-o = OnlineOrderPacking()
-o.pack_product()
-print()
-s = StoreOrderPacking()
-s.pack_product()
+class StoreOrderPacking extends OrderPackingTemplate {
+    @Override
+    void delivery() {
+        System.out.println("Add thanks message to the box and deliver to the customer.");
+    }
+}
+
+public class TemplatePatternOrder {
+    public static void main(String[] args) {
+        OnlineOrderPacking onlineOrder = new OnlineOrderPacking();
+        onlineOrder.packProduct();
+
+        System.out.println();
+
+        StoreOrderPacking storeOrder = new StoreOrderPacking();
+        storeOrder.packProduct();
+    }
+}

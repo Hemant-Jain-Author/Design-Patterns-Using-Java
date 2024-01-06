@@ -1,51 +1,76 @@
-from abc import ABC, abstractmethod
-class Animal(ABC):
-    @abstractmethod
-    def voice(self):
-        pass
+import java.util.*;
 
-class Dog(Animal):
-    def voice(self):
-        print("Bhow Bhow!!")
+// Animal interface
+interface Animal {
+    void voice();
+}
 
-class Cat(Animal):
-    def voice(self):
-        print("Meow Meow!!")
+// Concrete Animal classes
+class Dog implements Animal {
+    @Override
+    public void voice() {
+        System.out.println("Bhow Bhow!!");
+    }
+}
 
-## Animal factory defined
-class AnimalFactory(ABC):
-    @abstractmethod
-    def get_animal(self):
-        pass
+class Cat implements Animal {
+    @Override
+    public void voice() {
+        System.out.println("Meow Meow!!");
+    }
+}
 
-class CatFactory(AnimalFactory):
-    def get_animal(self):
-        return Cat()
+// AnimalFactory interface
+interface AnimalFactory {
+    Animal getAnimal();
+}
 
-class DogFactory(AnimalFactory):
-    def get_animal(self):
-        return Dog()
+// Concrete AnimalFactory classes
+class CatFactory implements AnimalFactory {
+    @Override
+    public Animal getAnimal() {
+        return new Cat();
+    }
+}
 
-# Client Code
-d = DogFactory()
-d.get_animal().voice()
-c = CatFactory()
-c.get_animal().voice()
+class DogFactory implements AnimalFactory {
+    @Override
+    public Animal getAnimal() {
+        return new Dog();
+    }
+}
 
-# loose coupeling 
-# single responsibility principle.
-# open close principle.
+// Client code
+public class FactoryMethodAnimal {
+    public static void main(String[] args) {
+        AnimalFactory dogFactory = new DogFactory();
+        dogFactory.getAnimal().voice();
 
+        AnimalFactory catFactory = new CatFactory();
+        catFactory.getAnimal().voice();
 
-# Future changes to include cow type of objects.
-class Cow(Animal):
-    def voice(self):
-        print("Gooaa Gooaa!!")
+        // Future changes to include cow type of objects.
+        class Cow implements Animal {
+            @Override
+            public void voice() {
+                System.out.println("Gooaa Gooaa!!");
+            }
+        }
 
-class CowFactory(AnimalFactory):
-    def get_animal(self):
-        return Cow()
+        class CowFactory implements AnimalFactory {
+            @Override
+            public Animal getAnimal() {
+                return new Cow();
+            }
+        }
 
-#Client Code
-cw = CowFactory()
-cw.get_animal().voice()
+        // Client code for Cow
+        AnimalFactory cowFactory = new CowFactory();
+        cowFactory.getAnimal().voice();
+    }
+}
+/*
+Bhow Bhow!!
+Meow Meow!!
+Gooaa Gooaa!!
+*/

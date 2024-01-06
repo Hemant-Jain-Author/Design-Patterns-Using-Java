@@ -1,87 +1,73 @@
-from abc import ABC, abstractmethod
+abstract class AbstractWorker {
+    final void dailyRoutine() {
+        wakeUp();
+        eatBreakfast();
+        goToWork();
+        work();
+        comeBackHome();
+        eatDinner();
+        sleep();
+    }
 
-class AbstractWorker(ABC):
-    def dailyRoutine(self):   # Final method
-        self.wakeUp()
-        self.eatBreakfast()
-        self.goToWork()
-        self.work()
-        self.comeBackHome()
-        self.eatDinner()
-        self.sleep()
+    void wakeUp() {
+        System.out.println("Wake Up");
+    }
 
-    def wakeUp(self):
-        print("Wake Up")
-    
-    def eatBreakfast(self):
-        print("Eat Breakfast")
-    
-    def goToWork(self):
-        print("Go to work")
-    
-    @abstractmethod
-    def work(self):
-        pass
-    
-    def comeBackHome(self):
-        print("Come back Home")
-    
-    def eatDinner(self):
-        print("Eat dinner")
-    
-    def sleep(self):
-        print("Sleep")
+    void eatBreakfast() {
+        System.out.println("Eat Breakfast");
+    }
 
+    void goToWork() {
+        System.out.println("Go to work");
+    }
 
-class Doctor(AbstractWorker):
-    def work(self):
-        print("...Treat Patients...")
+    abstract void work();
 
-class FireFighter(AbstractWorker):
-    def work(self):
-        print("...Fight Fire...")
+    void comeBackHome() {
+        System.out.println("Come back Home");
+    }
 
-class SuperHero(AbstractWorker): 
-    def work(self):
-        print("...Save the world!...")
+    void eatDinner() {
+        System.out.println("Eat dinner");
+    }
 
-# Client Code 
-d = Doctor()
-d.dailyRoutine()
-print()
+    void sleep() {
+        System.out.println("Sleep");
+    }
+}
 
-f = FireFighter()
-f.dailyRoutine()
-print()
+class Doctor extends AbstractWorker {
+    @Override
+    void work() {
+        System.out.println("...Treat Patients...");
+    }
+}
 
-s = SuperHero()
-s.dailyRoutine()
+class FireFighter extends AbstractWorker {
+    @Override
+    void work() {
+        System.out.println("...Fight Fire...");
+    }
+}
 
-"""
-Output:
-Wake Up
-Eat Breakfast
-Go to work
-...Treat Patients...
-Come back Home
-Eat dinner
-Sleep
+class SuperHero extends AbstractWorker {
+    @Override
+    void work() {
+        System.out.println("...Save the world!...");
+    }
+}
 
-Wake Up
-Eat Breakfast
-Go to work
-...Fight Fire...
-Come back Home
-Eat dinner
-Sleep
+public class TemplatePatternPerson {
+    public static void main(String[] args) {
+        Doctor doctor = new Doctor();
+        doctor.dailyRoutine();
+        System.out.println();
 
-Wake Up
-Eat Breakfast
-Go to work
-...Save the world!...
-Come back Home
-Eat dinner
-Sleep
+        FireFighter fireFighter = new FireFighter();
+        fireFighter.dailyRoutine();
+        System.out.println();
 
-"""
-
+        SuperHero superHero = new SuperHero();
+        superHero.dailyRoutine();
+    }
+}

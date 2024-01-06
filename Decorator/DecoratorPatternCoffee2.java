@@ -1,49 +1,81 @@
-from abc import ABC, abstractmethod
+import java.util.List;
+import java.util.ArrayList;
 
-class ICoffee (ABC):
-    @abstractmethod
-    def get_cost(self):
-        pass
-    
-    @abstractmethod
-    def get_ingredients(self):
-        pass
+// ICoffee (Component)
+interface ICoffee {
+    int getCost();
+    String getIngredients();
+}
 
-class SimpleCoffee(ICoffee):
-    def get_cost(self):
-        return 10
+// SimpleCoffee (ConcreteComponent)
+class SimpleCoffee implements ICoffee {
+    @Override
+    public int getCost() {
+        return 10;
+    }
 
-    def get_ingredients(self):
-        return "Coffee"
+    @Override
+    public String getIngredients() {
+        return "Coffee";
+    }
+}
 
-class CoffeeDecorator(ICoffee):
-    def __init__(self, component, name = "", cost = 0):
-        self._component = component
-        self._cost = cost
-        self._name = name
+// CoffeeDecorator (Decorator)
+abstract class CoffeeDecorator implements ICoffee {
+    protected ICoffee component;
+    protected String name;
+    protected int cost;
 
-    def get_cost(self):
-        return self._component.get_cost() + self._cost
-    
-    def get_ingredients(self):
-        return self._component.get_ingredients() + ", " + self._name
+    public CoffeeDecorator(ICoffee component, String name, int cost) {
+        this.component = component;
+        this.name = name;
+        this.cost = cost;
+    }
 
-class MilkDecorator(CoffeeDecorator):
-    def __init__(self, component):
-        super().__init__(component, "Milk", 4)
+    @Override
+    public int getCost() {
+        return component.getCost() + cost;
+    }
 
-class EspressoDecorator (CoffeeDecorator):
-    def __init__(self, component):
-        super().__init__(component, "Espresso", 5)
+    @Override
+    public String getIngredients() {
+        return component.getIngredients() + ", " + name;
+    }
+}
 
-# Client code
-component = SimpleCoffee()
-decorator1 = MilkDecorator(component)
-decorator2 = EspressoDecorator(decorator1)
-print("Coffee cost is :: %s" %decorator2.get_cost())
-print("Coffee ingredients are :: %s" %decorator2.get_ingredients())
+// MilkDecorator (ConcreteDecorator)
+class MilkDecorator extends CoffeeDecorator {
+    public MilkDecorator(ICoffee component) {
+        super(component, "Milk", 4);
+    }
+}
 
+// EspressoDecorator (ConcreteDecorator)
+class EspressoDecorator extends CoffeeDecorator {
+    public EspressoDecorator(ICoffee component) {
+        super(component, "Espresso", 5);
+    }
+}
 
-latte = MilkDecorator(MilkDecorator(SimpleCoffee()))
-print("Coffee cost is :: %s" %latte.get_cost())
-print("Coffee ingredients are :: %s" %latte.get_ingredients())
+// Client code
+public class DecoratorPatternCoffee2 {
+    public static void main(String[] args) {
+        ICoffee component = new SimpleCoffee();
+        ICoffee decorator1 = new MilkDecorator(component);
+        ICoffee decorator2 = new EspressoDecorator(decorator1);
+
+        System.out.println("Coffee cost is :: " + decorator2.getCost());
+        System.out.println("Coffee ingredients are :: " + decorator2.getIngredients());
+
+        ICoffee latte = new MilkDecorator(new MilkDecorator(new SimpleCoffee()));
+        System.out.println("Coffee cost is :: " + latte.getCost());
+        System.out.println("Coffee ingredients are :: " + latte.getIngredients());
+    }
+}
+
+/*
+Coffee cost is :: 19
+Coffee ingredients are :: Coffee, Milk, Espresso
+Coffee cost is :: 18
+Coffee ingredients are :: Coffee, Milk, Milk
+*/

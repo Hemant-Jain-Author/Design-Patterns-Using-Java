@@ -1,17 +1,37 @@
-from dataclasses import dataclass
+final class ImmutablePerson {
+    private final String name;
+    private final int age;
+    private final String gender;
 
-@dataclass(frozen=True)
-class ImmutablePerson:
-    name: str
-    age: int
-    gender: str
+    public ImmutablePerson(String name, int age, String gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
 
+    public String getName() {
+        return name;
+    }
 
-person = ImmutablePerson("John Doe", 30, "Male")
-new_person = ImmutablePerson(person.name, person.age + 1, person.gender)
-print(person)
-print(new_person)
+    public int getAge() {
+        return age;
+    }
 
-# person.age = 32
-# dataclasses.FrozenInstanceError: cannot assign to field 'age'
+    public String getGender() {
+        return gender;
+    }
+}
 
+public final class Immutable {
+    public static void main(String[] args) {
+        ImmutablePerson person = new ImmutablePerson("John Doe", 30, "Male");
+        ImmutablePerson newPerson = new ImmutablePerson("John Doe", 31, "Male");
+
+        System.out.println(person);
+        System.out.println(newPerson);
+        /* 
+        person.age = 32;
+        Immutable.java:32: error: age has private access in ImmutablePerson
+    */
+    }
+}

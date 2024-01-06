@@ -1,61 +1,82 @@
-class Student:
-    def __init__(self, name, id):
-        self.name = name
-        self.id = id
+class Student {
+    String name;
+    int id;
 
-class Model(object):
-    # Dummy model which just have one object.  
-    # Model is supposed to interact with database.
-    def __init__(self):
-        self.st = Student("Harry", 1)
+    public Student(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+}
 
-    def set_data(self, name, id):
-        print("Model: Set data :", name, id)
-        self.st.name = name
-        self.st.id = id
+class Model {
+    private Student student;
 
-    def get_data(self):
-        print("Model: Get data.")
-        return self.st
+    public Model() {
+        this.student = new Student("Harry", 1);
+    }
 
-class View(object):
-    # Dummy view which is print some data to standard output.
-    # View is supposed to intaract the UI. 
-    def __init__(self, model):
-        self.model = model
+    public void setData(String name, int id) {
+        System.out.println("Model: Set data : " + name + " " + id);
+        student.name = name;
+        student.id = id;
+    }
 
-    # In classic MVC view interact with the model to get data.
-    def update(self):
-        st = self.model.get_data()
-        print("View: Student Info : ", st.name , st.id)
+    public Student getData() {
+        System.out.println("Model: Get data.");
+        return student;
+    }
+}
 
-class Controller(object):
-    def __init__(self):
-        self.model = Model()
-        self.view = View(self.model)
+class View {
+    private Model model;
 
-    def set_data(self, name, id):
-        print("Controller: Receive data from client.")
-        self.model.set_data(name, id)
+    public View(Model model) {
+        this.model = model;
+    }
 
-    def update_view(self):
-        print("Controller: Receive update view from client.")
-        self.view.update()
+    public void update() {
+        Student student = model.getData();
+        System.out.println("View: Student Info, Name: " + student.name + " Id: " + student.id);
+    }
+}
 
-# Client code
-controller = Controller()
-controller.update_view()
+class Controller {
+    private Model model;
+    private View view;
 
-controller.set_data("jack", 2)
-controller.update_view()
+    public Controller() {
+        this.model = new Model();
+        this.view = new View(model);
+    }
 
-"""
+    public void setData(String name, int id) {
+        System.out.println("Controller: Receive data from client.");
+        model.setData(name, id);
+    }
+
+    public void updateView() {
+        System.out.println("Controller: Receive update view from client.");
+        view.update();
+    }
+}
+
+public class MVCPatternStudent {
+    public static void main(String[] args) {
+        Controller controller = new Controller();
+        controller.updateView();
+
+        controller.setData("Jack", 2);
+        controller.updateView();
+    }
+}
+
+/*
 Controller: Receive update view from client.
 Model: Get data.
-View: Student Info :  Harry 1
+View: Student Info, Name: Harry Id: 1
 Controller: Receive data from client.
-Model: Set data : jack 2
+Model: Set data : Jack 2
 Controller: Receive update view from client.
 Model: Get data.
-View: Student Info :  jack 2
-"""
+View: Student Info, Name: Jack Id: 2
+*/
