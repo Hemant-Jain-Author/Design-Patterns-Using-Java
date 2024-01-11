@@ -8,6 +8,14 @@ class Product {
         this.partB = B;
     }
 
+    public void setPartA(String A){
+        this.partA = A;
+    }
+
+    public void setPartB(String B){
+        this.partB = B;
+    }
+
     @Override
     public String toString() {
         return String.format("Product : (%s, %s)", partA, partB);
@@ -37,13 +45,13 @@ abstract class Builder {
 class ConcreteBuilder extends Builder {
     @Override
     public Builder setPartA(String A) {
-        this.product = new Product(A, this.product.toString().split(",")[1].trim());
+        this.product.setPartA(A);
         return this;
     }
 
     @Override
     public Builder setPartB(String B) {
-        this.product = new Product(this.product.toString().split(",")[0].split(":")[1].trim(), B);
+        this.product.setPartB(B);
         return this;
     }
 }
@@ -87,3 +95,9 @@ public class BuilderPattern {
         System.out.println(product3);
     }
 }
+
+/*
+Product : (A1, B1)
+Product : (A2, B2)
+Product : (A3, B default)
+ */
