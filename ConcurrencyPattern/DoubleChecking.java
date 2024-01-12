@@ -34,9 +34,7 @@ class Singleton {
     }
 }
 
-
 public class DoubleChecking {
-
     public static void main(String[] args) {
         Singleton s1 = Singleton.getInstance();
         Singleton s2 = Singleton.getInstance();

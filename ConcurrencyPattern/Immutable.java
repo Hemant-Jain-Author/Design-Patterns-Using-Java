@@ -35,3 +35,9 @@ public final class Immutable {
     */
     }
 }
+
+/*
+     public String setName(String newName) {
+        name = newName;
+    }
+ */
