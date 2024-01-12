@@ -1,4 +1,3 @@
-import java.util.Objects;
 
 interface Printable {
     void print(String document);
