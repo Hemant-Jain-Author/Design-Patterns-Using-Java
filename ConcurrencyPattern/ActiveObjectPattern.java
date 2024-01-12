@@ -31,7 +31,6 @@ class ActiveObject extends Thread {
                 MethodRequest methodRequest = queue.take();
                 methodRequest.execute();
             } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -78,3 +77,8 @@ public class ActiveObjectPattern {
         activeObject.stopThread();
     }
 }
+
+/*
+Hello
+World
+*/

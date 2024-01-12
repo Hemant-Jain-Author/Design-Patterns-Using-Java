@@ -37,3 +37,9 @@ public class ThreadLocalValue {
         }
     }
 }
+
+/*
+Thread-specific any value
+Thread-specific any value
+Thread-specific any value
+ */
