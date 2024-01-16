@@ -88,3 +88,10 @@ public class AbstractFactoryDemo2 {
         productB2.operationB();
     }
 }
+
+/* 
+ProductA1 operationA
+ProductB1 operationB
+ProductA2 operationA
+ProductB2 operationB
+*/

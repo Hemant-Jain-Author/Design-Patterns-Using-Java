@@ -21,7 +21,7 @@ class Person {
 class Citizen extends Person {
     private int id;
 
-    public Citizen(String name, int age, int id, String gender) {
+    public Citizen(String name, int age, String gender, int id) {
         super(name, age, gender);
         this.id = id;
     }
@@ -41,7 +41,12 @@ public class Inheritance {
         Person p = new Person("John", 32, "Male");
         System.out.println(p);
 
-        Citizen c = new Citizen("Smith", 31, 1234, "Male");
+        Citizen c = new Citizen("Smith", 31, "Male", 1234);
         System.out.println(c);
     }
 }
+
+/* 
+Person: John is a Male and 32 years old.
+Citizen: Smith is a Male and 31 years old with voter id 1234. 
+*/

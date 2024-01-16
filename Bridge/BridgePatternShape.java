@@ -72,3 +72,8 @@ public class BridgePatternShape {
         abstraction2.draw();
     }
 }
+
+/* 
+Drawing Circle with color Red
+Drawing Rectangle with color Green
+*/

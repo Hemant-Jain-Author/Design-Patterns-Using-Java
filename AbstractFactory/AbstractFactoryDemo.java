@@ -84,3 +84,10 @@ public class AbstractFactoryDemo {
         winFactory.getMenu().desc();
     }
 }
+
+/* 
+Mac Menu!!
+Mac Button!!
+Win Button!!
+Win Menu!!
+ */

@@ -39,3 +39,7 @@ public class FunctionOverriding {
         System.out.println(c.toString());
     }
 }
+/* 
+Person: John:Always tell truth
+Person: Smith:Country comes first
+ */

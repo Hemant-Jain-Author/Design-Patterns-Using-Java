@@ -26,3 +26,11 @@ public class UsingRelationship {
         b.fun2();
     }
 }
+
+/* 
+B created
+fun2 start
+A created
+fun1
+fun2 end 
+*/

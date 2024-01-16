@@ -28,6 +28,7 @@ class SchoolClass {
     }
 
     public void display() {
+        System.out.println("Students in class: " + className);        
         for (Student student : students) {
             System.out.println(student);
         }
@@ -36,7 +37,7 @@ class SchoolClass {
 
 public class AssociationRelationship {
     public static void main(String[] args) {
-        SchoolClass schoolClass = new SchoolClass("SS1");
+        SchoolClass schoolClass = new SchoolClass("S1");
         Student student1 = new Student("John Smith");
         Student student2 = new Student("Jane Smith");
 
@@ -46,3 +47,9 @@ public class AssociationRelationship {
         schoolClass.display();
     }
 }
+
+/*
+Students in class: S1
+Student: John Smith
+Student: Jane Smith
+*/

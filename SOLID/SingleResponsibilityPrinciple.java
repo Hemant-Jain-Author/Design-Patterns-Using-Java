@@ -64,8 +64,8 @@ public class SingleResponsibilityPrinciple {
         animal2.eat();
 
         Bird animal3 = new Bird("Eagle");
-        animal3.fly();
         animal3.layEggs();
+        animal3.fly();
     }
 }
 
@@ -74,6 +74,6 @@ Cat is giving birth to live young.
 Cat is making a sound.
 Snake is laying eggs.
 Snake is eating.
-Eagle is flying.
 Eagle is laying eggs.
+Eagle is flying.
 */

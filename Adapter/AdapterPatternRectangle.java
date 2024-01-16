@@ -56,3 +56,7 @@ public class AdapterPatternRectangle {
         adapter.draw();
     }
 }
+
+/* 
+Drawing Rectangle.
+*/

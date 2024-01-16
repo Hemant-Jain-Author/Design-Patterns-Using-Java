@@ -31,3 +31,7 @@ public class AdapterPattern {
         adapter.operation();
     }
 }
+/* 
+Adaptee someOperation() function called.
+
+ */

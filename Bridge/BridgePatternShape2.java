@@ -70,9 +70,9 @@ public class BridgePatternShape2 {
         DrawingAPI macAPI = new MacAPI();
 
         Shape square = new Square(windowsAPI);
-        square.draw();  // Output: Drawing a square on Windows.
+        square.draw();  
 
         Shape circle = new Circle(macAPI);
-        circle.draw();  // Output: Drawing a circle on Mac.
+        circle.draw();  
     }
 }

@@ -53,3 +53,11 @@ public class OperatorOverloading {
         System.out.println(r4);
     }
 }
+
+/* 
+Is r1 == r2 ? false
+Rectangle length and width: 4.0 6.0
+Rectangle length and width: 10.0 6.0
+Rectangle length and width: 14.0 12.0
+Rectangle length and width: 6.0 0.0
+*/

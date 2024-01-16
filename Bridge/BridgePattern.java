@@ -46,3 +46,7 @@ public class BridgePattern {
         abstraction.operation();
     }
 }
+
+/*
+ConcreteImplementor1 operation
+ */
