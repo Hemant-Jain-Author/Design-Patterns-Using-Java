@@ -27,3 +27,6 @@ public class ProxyLazy {
         proxy.request();
     }
 }
+/* 
+Concrete Subject Request Method
+*/

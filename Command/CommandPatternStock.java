@@ -61,3 +61,8 @@ public class CommandPatternStock {
         agent.placeOrder(sellStock);
     }
 }
+
+/* 
+Buy stocks
+Sell stocks 
+*/

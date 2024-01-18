@@ -106,5 +106,4 @@ Draw a Rectangle at (5, 7).
 Draw a Circle of radius 2 at (2, 1).
 Draw a Rectangle at (1, 2).
 Shapes(<Circle>Shapes(<Rectangle><Circle>)<Rectangle>)
-
- */
+*/

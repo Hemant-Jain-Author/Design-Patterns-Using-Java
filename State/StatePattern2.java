@@ -43,3 +43,8 @@ public class StatePattern2 {
         context.request();
     }
 }
+
+/* 
+ConcreteState1 handle
+ConcreteState2 handle 
+*/

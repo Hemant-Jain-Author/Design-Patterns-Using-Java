@@ -11,10 +11,11 @@ public class LimitedInstances {
     public static LimitedInstances getInstance() {
         if (instances.size() < limit) {
             LimitedInstances instance = new LimitedInstances();
+            System.out.println("New instance created.");
             instances.add(instance);
             return instance;
         } else {
-            throw new RuntimeException("Instance Limit reached");
+            throw new RuntimeException("Instance Limit reached.");
         }
     }
 
@@ -35,3 +36,11 @@ public class LimitedInstances {
         }
     }
 }
+
+/* 
+New instance created.
+New instance created.
+New instance created.
+New instance created.
+Instance Limit reached. 
+*/

@@ -134,3 +134,19 @@ public class MomentoPatternJson {
         System.out.println(originator.getState());
     }
 }
+/* 
+State 1
+State 2
+State 3
+Undoing state.
+State 2
+Undoing state.
+State 1
+State 4
+Redoing state.
+State 4
+Redoing state.
+State 4
+Redoing state.
+State 4
+*/

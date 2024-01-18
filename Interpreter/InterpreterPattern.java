@@ -33,3 +33,8 @@ public class InterpreterPattern {
         tree.interpret();
     }
 }
+
+/* 
+NonTerminalExpression:interpret
+TerminalExpression:interpret 
+*/

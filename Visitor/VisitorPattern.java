@@ -55,3 +55,8 @@ public class VisitorPattern {
         elementB.accept(visitor1);
     }
 }
+
+/* 
+ConcreteVisitor1 visitElementA() method called.
+ConcreteVisitor1 visitElementB() method called.
+*/

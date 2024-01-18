@@ -50,3 +50,9 @@ public class TemplatePatternData {
         addDataToDB.addData();
     }
 }
+
+/* 
+Open Database.
+Add data to Database.
+Close Database. 
+*/

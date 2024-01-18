@@ -63,6 +63,5 @@ Operation inside context: ClientClass@8bcc55f
 Operation inside concrete flyweight: ConcreteFlyweight@58644d46
 Operation inside context: ClientClass@14dad5dc
 Operation inside concrete flyweight: ConcreteFlyweight@58644d46
-
 */
 

@@ -111,3 +111,8 @@ public class VisitorShopping {
         cart.accept();
     }
 }
+
+/* 
+Total cost: 1000.0
+Total cost: 550.0
+*/

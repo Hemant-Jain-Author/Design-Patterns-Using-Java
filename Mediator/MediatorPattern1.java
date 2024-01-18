@@ -84,3 +84,9 @@ public class MediatorPattern1 {
         first.send("Hello, World!", "Second");
     }
 }
+
+/* 
+First Sent Message : Hello, World!
+Mediator pass Message : Hello, World!
+Second Received Message Hello, World!
+*/

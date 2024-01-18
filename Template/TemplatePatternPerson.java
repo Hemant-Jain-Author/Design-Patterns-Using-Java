@@ -71,3 +71,29 @@ public class TemplatePatternPerson {
         superHero.dailyRoutine();
     }
 }
+
+/*
+Wake Up
+Eat Breakfast
+Go to work
+...Treat Patients...
+Come back Home
+Eat dinner
+Sleep
+
+Wake Up
+Eat Breakfast
+Go to work
+...Fight Fire...
+Come back Home
+Eat dinner
+Sleep
+
+Wake Up
+Eat Breakfast
+Go to work
+...Save the world!...
+Come back Home
+Eat dinner
+Sleep
+*/

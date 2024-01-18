@@ -57,3 +57,8 @@ public class StatePattern {
         System.out.println(c.toStringState());
     }
 }
+
+/* 
+On
+Off
+*/

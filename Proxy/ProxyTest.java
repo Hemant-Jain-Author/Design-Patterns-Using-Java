@@ -28,3 +28,7 @@ public class ProxyTest {
         proxy.request();
     }
 }
+
+/* 
+Concrete Subject Request Method
+*/

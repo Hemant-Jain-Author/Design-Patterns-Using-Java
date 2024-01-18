@@ -42,3 +42,8 @@ public class StrategyPattern {
         context.execute();
     }
 }
+
+/* 
+ConcreteStrategy1 execute
+ConcreteStrategy2 execute
+*/

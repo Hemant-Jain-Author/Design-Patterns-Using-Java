@@ -48,3 +48,9 @@ public class CompositePattern {
         composite.operation();
     }
 }
+/* 
+Composite Operation
+Composite Operation
+Leaf Operation
+Leaf Operation 
+*/

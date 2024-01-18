@@ -37,3 +37,9 @@ public class ProxyPatternLazy {
         System.out.println(proxy.numPages());
     }
 }
+
+/* 
+Concrete Book Parser Created
+Concrete Book Parser Request Method
+1000
+*/

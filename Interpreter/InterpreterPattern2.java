@@ -69,3 +69,6 @@ public class InterpreterPattern2 {
         System.out.println("Result: " + result);  // Output: Result: 17
     }
 }
+
+// Result: 17
+

@@ -38,3 +38,8 @@ public class TemplatePattern {
         concreteClass.templateMethod();
     }
 }
+
+/*
+Concrete Class 1 : Operation 1
+Concrete Class 1 : Operation 2
+*/

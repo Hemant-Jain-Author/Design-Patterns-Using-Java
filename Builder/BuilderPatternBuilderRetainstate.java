@@ -72,3 +72,8 @@ public class BuilderPatternBuilderRetainstate {
         System.out.println(product2);
     }
 }
+
+/* 
+Product : (A1, B1)
+Product : (A2, B2)
+ */

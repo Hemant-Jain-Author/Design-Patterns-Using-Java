@@ -128,3 +128,19 @@ public class VisitorPatternShape {
         os.accept();
     }
 }
+
+/*
+<rectangle>
+  <x>6</x>
+  <y>7</y>
+  <width>8</width>
+  <height>9</height>
+</rectangle>
+<circle>
+  <x>6</x>
+  <y>7</y>
+  <radius>8</radius>
+</circle>
+Rectangle ( (x : 6, y : 7), width : 8, height : 9) 
+Circle ( (x : 6, y : 7), radius : 8) 
+*/

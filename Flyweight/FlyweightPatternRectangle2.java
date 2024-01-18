@@ -17,8 +17,8 @@ class RectangleIntrinsic implements Shape {
 
     @Override
     public void draw(int x1, int y1, int x2, int y2) {
-        System.out.printf("Draw rectangle color: %s topleft: (%s,%s) rightBottom: (%s,%s)%n",
-                this.color, x1, y1, x2, y2);
+        //System.out.printf("Draw rectangle color: %s topleft: (%s,%s) rightBottom: (%s,%s)%n",
+        //      this.color, x1, y1, x2, y2);
     }
 }
 
@@ -43,8 +43,8 @@ class RectangleWithoutFlyweight {
     }
 
     public void draw(int x1, int y1, int x2, int y2) {
-        System.out.printf("Draw rectangle color: %s topleft: (%s,%s) rightBottom: (%s,%s)%n",
-                this.color, x1, y1, x2, y2);
+        //System.out.printf("Draw rectangle color: %s topleft: (%s,%s) rightBottom: (%s,%s)%n",
+        //        this.color, x1, y1, x2, y2);
     }
 }
 
@@ -73,3 +73,7 @@ public class FlyweightPatternRectangle2 {
         System.out.println("Without Flyweight Time: " + (endTime - startTime) + " ms");
     }
 }
+/* 
+Flyweight Time: 1 ms
+Without Flyweight Time: 4 ms 
+*/

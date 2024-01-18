@@ -47,3 +47,7 @@ public class ChainOfResponsibility {
         ch2.handleRequest();
     }
 }
+/* 
+Message passed to next in chain by ConcreteHandler2
+Finally handled by ConcreteHandler1
+*/

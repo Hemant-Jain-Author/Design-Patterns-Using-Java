@@ -76,3 +76,7 @@ public class BridgePatternShape2 {
         circle.draw();  
     }
 }
+/* 
+Drawing a square on Windows.
+Drawing a circle on Mac. 
+*/

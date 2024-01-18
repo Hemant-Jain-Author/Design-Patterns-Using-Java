@@ -80,3 +80,12 @@ public class MediatorPattern {
         james.broadcast("Hello, World!");
     }
 }
+
+/* 
+Michael sent Message : Good Morning.
+James received Message : Good Morning.
+James broadcast Message : Hello, World!
+ChatRoom broadcast Message : Hello, World!
+Robert received Message : Hello, World!
+Michael received Message : Hello, World!
+*/

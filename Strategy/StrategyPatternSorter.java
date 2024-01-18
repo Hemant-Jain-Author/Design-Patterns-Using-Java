@@ -72,3 +72,10 @@ public class StrategyPatternSorter {
         System.out.println(Arrays.toString(b));
     }
 }
+
+/*
+ * Bubble Sort Algorithm executed.
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Selection Sort Algorithm executed.
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+*/
