@@ -1,4 +1,3 @@
-
 public class ThreadLocalValue {
     // ThreadLocal variable
     private static final ThreadLocal<String> tlsVar = new ThreadLocal<>();
@@ -15,8 +14,18 @@ public class ThreadLocalValue {
 
     // Worker thread function
     private static void workerThread() {
-        setTLSValue("Thread-specific any value");
-        System.out.println(getTLSValue());
+        // Set thread-specific value
+        setTLSValue("Thread-specific value for " + Thread.currentThread().getName());
+
+        // Simulate some work
+        try {
+            Thread.sleep(1000); // Simulate work with a sleep
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Print thread-specific value
+        System.out.println(Thread.currentThread().getName() + " value: " + getTLSValue());
     }
 
     public static void main(String[] args) {
@@ -39,7 +48,7 @@ public class ThreadLocalValue {
 }
 
 /*
-Thread-specific any value
-Thread-specific any value
-Thread-specific any value
+Thread-2 value: Thread-specific value for Thread-2
+Thread-1 value: Thread-specific value for Thread-1
+Thread-0 value: Thread-specific value for Thread-0
  */

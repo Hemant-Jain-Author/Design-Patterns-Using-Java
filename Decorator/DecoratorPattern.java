@@ -1,10 +1,10 @@
 // Component
-interface Component {
-    void operation();
+abstract class Component {
+    public abstract void operation();
 }
 
 // ConcreteComponent
-class ConcreteComponent implements Component {
+class ConcreteComponent extends Component {
     @Override
     public void operation() {
         System.out.println("ConcreteComponent operation.");
@@ -12,7 +12,7 @@ class ConcreteComponent implements Component {
 }
 
 // Decorator
-abstract class Decorator implements Component {
+abstract class Decorator extends Component {
     private Component component;
 
     public Decorator(Component component) {
@@ -69,4 +69,4 @@ ConcreteDecorator1 operation start.
 ConcreteComponent operation.
 ConcreteDecorator1 operation end.
 ConcreteDecorator2 operation end.
- */
+*/

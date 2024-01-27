@@ -1,4 +1,14 @@
 
+
+public abstract class Printer {
+
+    public abstract void print(String document);
+
+    public abstract void scan();
+
+    public abstract void fax(String document);
+}
+
 interface Printable {
     void print(String document);
 }
@@ -11,15 +21,10 @@ interface Faxable {
     void fax(String document);
 }
 
-class BasicInkjetPrinter implements Printable, Scannable {
+class BasicInkjetPrinter implements Printable {
     @Override
     public void print(String document) {
         System.out.printf("Printing %s using basic inkjet printer%n", document);
-    }
-
-    @Override
-    public void scan() {
-        System.out.println("Scanning using basic inkjet printer");
     }
 }
 
@@ -46,7 +51,6 @@ public class InterfaceSegregationPrinciple {
         // BasicInkjetPrinter
         BasicInkjetPrinter basicPrinter = new BasicInkjetPrinter();
         basicPrinter.print("Sample Document");
-        basicPrinter.scan();
 
         // HighEndOfficePrinter
         HighEndOfficePrinter officePrinter = new HighEndOfficePrinter();
@@ -58,7 +62,6 @@ public class InterfaceSegregationPrinciple {
 
 /*
 Printing Sample Document using basic inkjet printer
-Scanning using basic inkjet printer
 Printing Important Report using high end office printer
 Scanning using high end office printer
 Faxing Confidential Memo using high end office printer

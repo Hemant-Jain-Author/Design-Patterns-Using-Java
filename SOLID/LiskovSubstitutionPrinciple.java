@@ -1,4 +1,40 @@
 
+import java.util.*;
+
+abstract class Animal {
+    String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    void makeSound() {
+    	System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+    }
+
+    @Override
+    void makeSound() {
+        System.out.println("woof woof!");
+    }
+}
+
+class Cat extends Animal {
+    public Cat(String name) {
+        super(name);
+    }
+
+    @Override
+    void makeSound() {
+        System.out.println("meow!");
+    }
+}
+
 class Rectangle {
     private int height;
     private int width;
@@ -44,17 +80,6 @@ class Square extends Rectangle {
 }
 
 public class LiskovSubstitutionPrinciple {
-    public static void testRectangle() {
-        Rectangle r = new Rectangle(10, 20);
-        testRect(r);
-    }
-
-    public static void testSquare() {
-        Square s = new Square(10);
-        s.setWidth(20);
-        testRect(s);
-    }
-
     private static void testRect(Rectangle rect) {
         rect.setHeight(10);
         rect.setWidth(20);
@@ -65,8 +90,10 @@ public class LiskovSubstitutionPrinciple {
     }
 
     public static void main(String[] args) {
-        testRectangle();
-        testSquare();
+    	Rectangle r = new Rectangle(10, 20);
+    	testRect(r);
+    	Square s = new Square(10);
+    	testRect(s);
     }
 }
 

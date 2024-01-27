@@ -97,16 +97,10 @@ public class BuilderPatternHouse {
         director = new HouseDirector(builder);
         House house2 = director.construct();
         System.out.println(house2);
-
-        // Displaying both houses
-        System.out.println(house);
-        System.out.println(house2);
     }
 }
 
 /*
-House of Concrete Wall and Concrete Roof
-House of Wooden Wall and Wooden Roof
 House of Concrete Wall and Concrete Roof
 House of Wooden Wall and Wooden Roof
  */

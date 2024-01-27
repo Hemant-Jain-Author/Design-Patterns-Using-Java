@@ -1,21 +1,25 @@
 import java.util.HashMap;
 import java.util.Map;
 
-// Flyweight interface
-interface Flyweight {
-    void operation(Object extrinsicState);
-}
+// Flyweight abstract class
+abstract class Flyweight {
+    protected String intrinsicState;
 
-// Concrete Flyweight class
-class ConcreteFlyweight implements Flyweight {
-    private String intrinsicState;
-
-    public ConcreteFlyweight(String intrinsicState) {
+    public Flyweight(String intrinsicState) {
         this.intrinsicState = intrinsicState;
     }
 
+    abstract void operation(Object extrinsicState);
+}
+
+// Concrete Flyweight class
+class ConcreteFlyweight extends Flyweight {
+    public ConcreteFlyweight(String intrinsicState) {
+        super(intrinsicState);
+    }
+
     @Override
-    public void operation(Object extrinsicState) {
+    void operation(Object extrinsicState) {
         System.out.println("Operation inside concrete flyweight");
     }
 }
@@ -47,6 +51,7 @@ public class FlyweightPattern {
         System.out.println("Object count: " + factory.getCount());
     }
 }
+
 
 /* 
 Operation inside concrete flyweight

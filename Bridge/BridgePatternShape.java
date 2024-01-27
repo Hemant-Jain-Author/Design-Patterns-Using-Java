@@ -1,61 +1,65 @@
-// Abstraction interface
-interface Shape {
-    void draw();
-}
+import java.util.*;
 
-// Implementor interface
-interface Color {
-    String fill();
-}
+// Abstraction abstract class
+abstract class Shape {
+    protected Colour imp;
 
-// Rectangle class
-class Rectangle implements Shape {
-    private Color imp;
-
-    public Rectangle(Color imp) {
+    public Shape(Colour imp) {
         this.imp = imp;
     }
 
+    abstract void draw();
+}
+
+// Rectangle class
+class Rectangle extends Shape {
+    public Rectangle(Colour imp) {
+        super(imp);
+    }
+
     @Override
-    public void draw() {
-        System.out.println("Drawing Rectangle with color " + imp.fill());
+    void draw() {
+        System.out.println("Drawing Rectangle with colour " + imp.fill());
     }
 }
 
 // Circle class
-class Circle implements Shape {
-    private Color imp;
-
-    public Circle(Color imp) {
-        this.imp = imp;
+class Circle extends Shape {
+    public Circle(Colour imp) {
+        super(imp);
     }
 
     @Override
-    public void draw() {
-        System.out.println("Drawing Circle with color " + imp.fill());
+    void draw() {
+        System.out.println("Drawing Circle with colour " + imp.fill());
     }
 }
 
+// Colour abstract class
+abstract class Colour {
+    abstract String fill();
+}
+
 // Red class
-class Red implements Color {
+class Red extends Colour {
     @Override
-    public String fill() {
+    String fill() {
         return "Red";
     }
 }
 
 // Green class
-class Green implements Color {
+class Green extends Colour {
     @Override
-    public String fill() {
+    String fill() {
         return "Green";
     }
 }
 
 // Blue class
-class Blue implements Color {
+class Blue extends Colour {
     @Override
-    public String fill() {
+    String fill() {
         return "Blue";
     }
 }
@@ -63,17 +67,12 @@ class Blue implements Color {
 // Client code
 public class BridgePatternShape {
     public static void main(String[] args) {
-        Color c1 = new Red();
+        Colour c1 = new Red();
         Shape abstraction = new Circle(c1);
         abstraction.draw();
 
-        Color c2 = new Green();
-        Shape abstraction2 = new Rectangle(c2);
-        abstraction2.draw();
+        Colour c2 = new Green();
+        abstraction = new Rectangle(c2);
+        abstraction.draw();
     }
 }
-
-/* 
-Drawing Circle with color Red
-Drawing Rectangle with color Green
-*/

@@ -1,7 +1,3 @@
-interface BulbState {
-    void flip(BulbControl bc);
-    String toString();
-}
 
 class BulbControl {
     private BulbState current;
@@ -21,6 +17,11 @@ class BulbControl {
     String toStringState() {
         return this.current.toString();
     }
+}
+
+interface BulbState {
+    void flip(BulbControl bc);
+    String toString();
 }
 
 class On implements BulbState {

@@ -12,7 +12,7 @@ class Composite extends Component {
 
     @Override
     public void operation() {
-        System.out.println("Composite Operation");
+        System.out.println("Composite Operation.");
         for (Component child : children) {
             child.operation();
         }
@@ -31,7 +31,7 @@ class Composite extends Component {
 class Leaf extends Component {
     @Override
     public void operation() {
-        System.out.println("Leaf Operation");
+        System.out.println("Leaf Operation.");
     }
 }
 
@@ -49,8 +49,8 @@ public class CompositePattern {
     }
 }
 /* 
-Composite Operation
-Composite Operation
-Leaf Operation
-Leaf Operation 
+Composite Operation.
+Composite Operation.
+Leaf Operation.
+Leaf Operation.
 */

@@ -6,7 +6,7 @@ abstract class Animal {
     }
 }
 
-class Bird extends Animal {
+abstract class Bird extends Animal {
     int flightHeight;
 
     Bird(String name) {
@@ -14,9 +14,7 @@ class Bird extends Animal {
         this.flightHeight = 0;
     }
 
-    void fly() {
-        // To be implemented in subclasses
-    }
+    abstract void fly();
 }
 
 class Sparrow extends Bird {
@@ -74,8 +72,6 @@ public class LiskovSubstitutionPrinciple2 {
 
         Penguin penguin = new Penguin("Penguin");
         test(penguin);
-        penguin.slide();
-        penguin.swim();
 
         Dodo dodo = new Dodo("Dodo");
         test(dodo);
@@ -87,8 +83,6 @@ The sparrow is fluttering its wings.
 Bird is flying at a positive height.
 The penguin cannot fly.
 Error: fly() method called; flight height is still zero.
-The penguin is sliding on its belly!
-The penguin is swimming in the water!
 The dodo is extinct and cannot fly.
 Error: fly() method called; flight height is still zero.
 */

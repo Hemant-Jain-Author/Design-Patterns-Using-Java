@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Database {
     private static Database _instance = null; // Keep instance reference
-    private Connection connection;
+    private static Connection connection;
     
     private Database() {
         try {

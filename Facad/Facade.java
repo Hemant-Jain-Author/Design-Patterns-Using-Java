@@ -39,7 +39,7 @@ class SystemManagerFacade {
 }
 
 // Client code
-public class Facad {
+public class Facade {
     public static void main(String[] args) {
         SystemManagerFacade facade = new SystemManagerFacade();
         facade.operation();

@@ -1,40 +1,44 @@
-// Abstraction interface
-interface Abstraction {
-    void operation();
+// Abstraction abstract class
+abstract class Abstraction {
+    protected Implementor imp;
+
+    public Abstraction(Implementor imp) {
+        this.imp = imp;
+    }
+
+    abstract void operation();
 }
 
-// Implementor interface
-interface Implementor {
-    void operation();
+// Implementor abstract class
+abstract class Implementor {
+    abstract void operation();
+}
+
+// ConcreteAbstraction class
+class ConcreteAbstraction extends Abstraction {
+    public ConcreteAbstraction(Implementor imp) {
+        super(imp);
+    }
+
+    @Override
+    void operation() {
+        imp.operation();
+    }
 }
 
 // ConcreteImplementor1 class
-class ConcreteImplementor1 implements Implementor {
+class ConcreteImplementor1 extends Implementor {
     @Override
-    public void operation() {
+    void operation() {
         System.out.println("ConcreteImplementor1 operation");
     }
 }
 
 // ConcreteImplementor2 class
-class ConcreteImplementor2 implements Implementor {
+class ConcreteImplementor2 extends Implementor {
     @Override
-    public void operation() {
+    void operation() {
         System.out.println("ConcreteImplementor2 operation");
-    }
-}
-
-// ConcreteAbstraction class
-class ConcreteAbstraction implements Abstraction {
-    private Implementor imp;
-
-    public ConcreteAbstraction(Implementor imp) {
-        this.imp = imp;
-    }
-
-    @Override
-    public void operation() {
-        imp.operation();
     }
 }
 
@@ -46,7 +50,3 @@ public class BridgePattern {
         abstraction.operation();
     }
 }
-
-/*
-ConcreteImplementor1 operation
- */

@@ -1,13 +1,34 @@
 import java.util.ArrayList;
 import java.util.List;
 
+interface Aggregate {
+    Iterator getIterator();
+}
+
+class ConcreteAggregate implements Aggregate {
+    private List<Integer> data;
+
+    public ConcreteAggregate() {
+        this.data = new ArrayList<>();
+    }
+
+    public void addData(int val) {
+        data.add(val);
+    }
+
+    @Override
+    public Iterator getIterator() {
+        return new ConcreteIterator(this);
+    }
+
+    public List<Integer> getData() {
+        return data;
+    }
+}
+
 interface Iterator {
     int next();
     boolean hasNext();
-}
-
-interface Aggregate {
-    Iterator getIterator();
 }
 
 class ConcreteIterator implements Iterator {
@@ -32,27 +53,6 @@ class ConcreteIterator implements Iterator {
     @Override
     public boolean hasNext() {
         return index < aggregate.getData().size();
-    }
-}
-
-class ConcreteAggregate implements Aggregate {
-    private List<Integer> data;
-
-    public ConcreteAggregate() {
-        this.data = new ArrayList<>();
-    }
-
-    public void addData(int val) {
-        data.add(val);
-    }
-
-    @Override
-    public Iterator getIterator() {
-        return new ConcreteIterator(this);
-    }
-
-    public List<Integer> getData() {
-        return data;
     }
 }
 

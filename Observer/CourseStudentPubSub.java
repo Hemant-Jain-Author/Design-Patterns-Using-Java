@@ -3,10 +3,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-interface Observer {
-    void notify(String subject, String message);
-}
-
 class Courses {
     private Map<String, Set<Observer>> courseStudents = new HashMap<>();
 
@@ -30,7 +26,7 @@ class Courses {
     }
 }
 
-class Student implements Observer {
+class Student {
     private String name;
 
     public Student(String name) {

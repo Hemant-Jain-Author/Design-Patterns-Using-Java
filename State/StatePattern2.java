@@ -1,6 +1,4 @@
-interface State {
-    void handle(Context context);
-}
+
 
 class Context {
     private State currentState;
@@ -16,6 +14,10 @@ class Context {
     void request() {
         this.currentState.handle(this);
     }
+}
+
+interface State {
+    void handle(Context context);
 }
 
 class ConcreteState1 implements State {

@@ -32,14 +32,8 @@ class ATMHandler extends ATMHandlerAbstract {
 
 public class ChainOfResATM {
     public static void main(String[] args) {
-        ATMHandlerAbstract handler = new ATMHandler(
-                new ATMHandler(
-                        new ATMHandler(
-                                new ATMHandler(null, 10), 50
-                        ), 100
-                ), 1000
-        );
-
+        ATMHandlerAbstract handler = new ATMHandler(new ATMHandler(new ATMHandler(
+            new ATMHandler(null, 10), 50), 100), 1000);
         handler.handleRequest(5560);
     }
 }

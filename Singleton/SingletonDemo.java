@@ -13,13 +13,12 @@ class Singleton {
     private Database db;
 
     private Singleton() {
-        instance = this;
         db = new Database();
     }
 
     public static Singleton getInstance() {
         if (instance == null) {
-            new Singleton();
+        	instance = new Singleton();
         }
         return instance;
     }

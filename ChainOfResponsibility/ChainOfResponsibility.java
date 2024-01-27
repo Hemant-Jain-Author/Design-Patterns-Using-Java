@@ -1,53 +1,79 @@
+// Handler abstract class
 abstract class Handler {
-    protected Handler successor = null;
+    protected Handler successor;
 
     public Handler(Handler successor) {
         this.successor = successor;
     }
 
-    public abstract void handleRequest();
+    abstract void handleRequest(String request);
 }
 
+// ConcreteHandler1 class
 class ConcreteHandler1 extends Handler {
     public ConcreteHandler1(Handler successor) {
         super(successor);
     }
 
     @Override
-    public void handleRequest() {
-        if (true) {  // Can handle request.
-            System.out.println("Finally handled by ConcreteHandler1");
+    void handleRequest(String request) {
+        if ("request1".equals(request)) {
+            System.out.println("ConcreteHandler1 handles the request1.");
         } else if (successor != null) {
-            System.out.println("Message passed to next in chain by ConcreteHandler1");
-            successor.handleRequest();
+            successor.handleRequest(request);
         }
     }
 }
 
+// ConcreteHandler2 class
 class ConcreteHandler2 extends Handler {
     public ConcreteHandler2(Handler successor) {
         super(successor);
     }
 
     @Override
-    public void handleRequest() {
-        if (false) {  // Can't handle request.
-            System.out.println("Finally handled by ConcreteHandler2");
+    void handleRequest(String request) {
+        if ("request2".equals(request)) {
+            System.out.println("ConcreteHandler2 handles the request2.");
         } else if (successor != null) {
-            System.out.println("Message passed to next in chain by ConcreteHandler2");
-            successor.handleRequest();
+            successor.handleRequest(request);
         }
     }
 }
 
+// ConcreteHandler3 class
+class ConcreteHandler3 extends Handler {
+    public ConcreteHandler3(Handler successor) {
+        super(successor);
+    }
+
+    @Override
+    void handleRequest(String request) {
+        if ("request3".equals(request)) {
+            System.out.println("ConcreteHandler3 handles the request3.");
+        } else if (successor != null) {
+            successor.handleRequest(request);
+        }
+    }
+}
+
+// Client code
 public class ChainOfResponsibility {
     public static void main(String[] args) {
         ConcreteHandler1 ch1 = new ConcreteHandler1(null);
         ConcreteHandler2 ch2 = new ConcreteHandler2(ch1);
-        ch2.handleRequest();
+        ConcreteHandler3 ch3 = new ConcreteHandler3(ch2);
+
+        ch3.handleRequest("request1");
+        ch3.handleRequest("request2");
+        ch3.handleRequest("request3");
+        ch3.handleRequest("request4");
     }
 }
+
+
 /* 
-Message passed to next in chain by ConcreteHandler2
-Finally handled by ConcreteHandler1
+ConcreteHandler1 handles the request1.
+ConcreteHandler2 handles the request2.
+ConcreteHandler3 handles the request3.
 */

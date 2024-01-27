@@ -2,40 +2,40 @@ import java.util.*;
 
 // Animal interface
 interface Animal {
-    void voice();
+    void speak();
 }
 
 // Concrete Animal classes
 class Dog implements Animal {
     @Override
-    public void voice() {
+    public void speak() {
         System.out.println("Bhow Bhow!!");
     }
 }
 
 class Cat implements Animal {
     @Override
-    public void voice() {
+    public void speak() {
         System.out.println("Meow Meow!!");
     }
 }
 
 // AnimalFactory interface
 interface AnimalFactory {
-    Animal getAnimal();
+    Animal createAnimal();
 }
 
 // Concrete AnimalFactory classes
 class CatFactory implements AnimalFactory {
     @Override
-    public Animal getAnimal() {
+    public Animal createAnimal() {
         return new Cat();
     }
 }
 
 class DogFactory implements AnimalFactory {
     @Override
-    public Animal getAnimal() {
+    public Animal createAnimal() {
         return new Dog();
     }
 }
@@ -44,29 +44,29 @@ class DogFactory implements AnimalFactory {
 public class FactoryMethodAnimal {
     public static void main(String[] args) {
         AnimalFactory dogFactory = new DogFactory();
-        dogFactory.getAnimal().voice();
+        dogFactory.createAnimal().speak();
 
         AnimalFactory catFactory = new CatFactory();
-        catFactory.getAnimal().voice();
+        catFactory.createAnimal().speak();
 
         // Future changes to include cow type of objects.
         class Cow implements Animal {
             @Override
-            public void voice() {
+            public void speak() {
                 System.out.println("Gooaa Gooaa!!");
             }
         }
 
         class CowFactory implements AnimalFactory {
             @Override
-            public Animal getAnimal() {
+            public Animal createAnimal() {
                 return new Cow();
             }
         }
 
         // Client code for Cow
         AnimalFactory cowFactory = new CowFactory();
-        cowFactory.getAnimal().voice();
+        cowFactory.createAnimal().speak();
     }
 }
 /*

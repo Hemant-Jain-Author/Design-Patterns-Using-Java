@@ -2,31 +2,34 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-// Shape interface
-interface Shape {
-    void draw(int x1, int y1, int x2, int y2);
-}
+// Shape abstract class
+abstract class Shape {
+    protected int colour; // Intrinsic State
 
-// Rectangle class implementing Shape
-class Rectangle implements Shape {
-    private String colour;
-
-    public Rectangle(String colour) {
+    public Shape(int colour) {
         this.colour = colour;
     }
 
+    abstract void draw(int x1, int y1, int x2, int y2); // Extrinsic State
+}
+
+// Rectangle class
+class Rectangle extends Shape {
+    public Rectangle(int colour) {
+        super(colour);
+    }
+
     @Override
-    public void draw(int x1, int y1, int x2, int y2) {
-        System.out.printf("Draw rectangle colour: %s topleft: (%s,%s) rightBottom: (%s,%s)%n", 
-            this.colour, x1, y1, x2, y2);
+    void draw(int x1, int y1, int x2, int y2) {
+        System.out.printf("Draw Rectangle colour:%d topleft: (%d,%d) rightBottom: (%d,%d)%n", colour, x1, y1, x2, y2);
     }
 }
 
 // RectangleFactory class
 class RectangleFactory {
-    private Map<String, Shape> shapes = new HashMap<>();
+    private Map<Integer, Shape> shapes = new HashMap<>();
 
-    public Shape getRectangle(String colour) {
+    public Shape getRectangle(int colour) {
         if (!shapes.containsKey(colour)) {
             shapes.put(colour, new Rectangle(colour));
         }
@@ -44,10 +47,11 @@ public class FlyweightPatternRectangle {
         RectangleFactory factory = new RectangleFactory();
         Random random = new Random();
 
-        for (int i = 0; i < 100; i++) {
-            Shape rectangle = factory.getRectangle(Integer.toString(random.nextInt(1000)));
-            rectangle.draw(random.nextInt(100), random.nextInt(100), random.nextInt(100), random.nextInt(100));
+        for (int i = 0; i < 1000; i++) {
+            Shape rect = factory.getRectangle(random.nextInt(1000));
+            rect.draw(random.nextInt(100), random.nextInt(100), random.nextInt(100), random.nextInt(100));
         }
+
         System.out.println(factory.getCount());
     }
 }

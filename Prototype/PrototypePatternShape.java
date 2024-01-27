@@ -82,7 +82,8 @@ public class PrototypePatternShape {
         ShapeRegistry.load();
         Shape c = ShapeRegistry.getShape("circle");
         Shape r = ShapeRegistry.getShape("rectangle");
-        System.out.println(c + " " + r);
+        System.out.println(c);
+        System.out.println(r);
     }
 }
 

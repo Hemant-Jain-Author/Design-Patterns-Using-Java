@@ -80,7 +80,6 @@ public class MediatorPattern1 {
         mediator.addColleague(first);
         ConcreteColleague2 second = new ConcreteColleague2(mediator);
         mediator.addColleague(second);
-
         first.send("Hello, World!", "Second");
     }
 }

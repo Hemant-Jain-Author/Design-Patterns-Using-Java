@@ -1,14 +1,14 @@
 import java.util.HashSet;
 import java.util.Set;
 
-// IShape
-interface IShape {
-    void move(int x, int y);
-    String draw();
+// Shape
+abstract class Shape {
+    public abstract void move(int x, int y);
+    public abstract String draw();
 }
 
 // Rectangle
-class Rectangle implements IShape {
+class Rectangle extends Shape {
     private int x, y, length, breadth;
 
     public Rectangle(int x, int y, int length, int breadth) {
@@ -32,7 +32,7 @@ class Rectangle implements IShape {
 }
 
 // Circle
-class Circle implements IShape {
+class Circle extends Shape {
     private int x, y, radius;
 
     public Circle(int x, int y, int radius) {
@@ -55,20 +55,20 @@ class Circle implements IShape {
 }
 
 // CompoundShape
-class CompoundShape implements IShape {
-    private Set<IShape> children = new HashSet<>();
+class CompoundShape extends Shape {
+    private Set<Shape> children = new HashSet<>();
 
-    public void add(IShape child) {
+    public void add(Shape child) {
         children.add(child);
     }
 
-    public void remove(IShape child) {
+    public void remove(Shape child) {
         children.remove(child);
     }
 
     @Override
     public void move(int x, int y) {
-        for (IShape child : children) {
+        for (Shape child : children) {
             child.move(x, y);
         }
     }
@@ -76,7 +76,7 @@ class CompoundShape implements IShape {
     @Override
     public String draw() {
         String st = "Shapes(";
-        for (IShape child : children) {
+        for (Shape child : children) {
             st += child.draw();
         }
         st += ")";

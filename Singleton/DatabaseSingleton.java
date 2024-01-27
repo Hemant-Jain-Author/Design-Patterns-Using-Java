@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseSingleton {
-    private static DatabaseSingleton instance;
+    private static DatabaseSingleton instance = null;;
     private Connection connection;
     private PreparedStatement preparedStatement;
 
