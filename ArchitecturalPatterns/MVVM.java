@@ -1,8 +1,10 @@
-import java.util.Scanner;
 
 // Model
+
+import java.util.Scanner;
+
 class Model {
-    private String data;
+    private String data = "Default.";
 
     public void setData(String data) {
         System.out.println("Model: Set data.");
@@ -15,33 +17,7 @@ class Model {
     }
 }
 
-// ViewModel
-class ViewModel {
-    private Model model;
-    private String data;
-
-    public ViewModel(Model model) {
-        this.model = model;
-        updateData();
-    }
-
-    public void updateModel(String data) {
-        System.out.println("ViewModel: Update data.");
-        model.setData(data);
-        updateData();
-    }
-
-    public void updateData() {
-        System.out.println("ViewModel: Fetch data.");
-        data = model.getData();
-    }
-
-    public String getData() {
-        return data;
-    }
-}
-
-// View
+//View
 class View {
     private ViewModel viewModel;
 
@@ -56,12 +32,27 @@ class View {
     public void getUserInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("View: Enter user input: ");
-        /* 
-        String userInput = "hello, world!";
-        System.out.println(userInput);
-        */
         String userInput = scanner.nextLine();
-        viewModel.updateModel(userInput);
+        viewModel.setData(userInput);
+    }
+}
+
+// ViewModel
+class ViewModel {
+    private Model model;
+
+    public ViewModel(Model model) {
+        this.model = model;
+    }
+
+    public void setData(String data) {
+        System.out.println("ViewModel: Set data.");
+        model.setData(data);
+    }
+
+    public String getData() {
+        System.out.println("ViewModel: Get data.");
+        return model.getData();
     }
 }
 
@@ -86,13 +77,13 @@ public class MVVM {
 
 
 /*
-ViewModel: Fetch data.
+ViewModel: Get data.
 Model: Get data.
-Display Data: null
+Display Data: Default.
 View: Enter user input: hello, world!
-ViewModel: Update data.
+ViewModel: Set data.
 Model: Set data.
-ViewModel: Fetch data.
+ViewModel: Get data.
 Model: Get data.
 Display Data: hello, world!
 */

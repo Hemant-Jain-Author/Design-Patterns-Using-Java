@@ -5,7 +5,7 @@ import java.util.Scanner;
 // Model
 class Model {
     private String data;
-    private List<Observer> observers;
+    private List<View> observers;
 
     public Model() {
         this.observers = new ArrayList<>();
@@ -22,24 +22,24 @@ class Model {
         return this.data;
     }
 
-    public void addObserver(Observer observer) {
+    public void addObserver(View observer) {
         this.observers.add(observer);
     }
 
-    public void removeObserver(Observer observer) {
+    public void removeObserver(View observer) {
         this.observers.remove(observer);
     }
 
     public void notifyObservers() {
         System.out.println("Model : Notify observers.");
-        for (Observer observer : observers) {
+        for (View observer : observers) {
             observer.update();
         }
     }
 }
 
 // View
-class View implements Observer {
+class View {
     private Controller controller;
     private Model model;
 
@@ -84,11 +84,6 @@ class Controller {
     public void setView(View v) {
         this.view = v;
     }
-}
-
-// Observer interface
-interface Observer {
-    void update();
 }
 
 // Main class
