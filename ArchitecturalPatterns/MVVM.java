@@ -1,8 +1,8 @@
 
-// Model
 
 import java.util.Scanner;
 
+//Model
 class Model {
     private String data = "Default.";
 

@@ -56,10 +56,6 @@ class Circle extends Shape {
 class ShapeRegistry {
     private static final Map<String, Shape> shapes = new HashMap<>();
 
-    static {
-        load();
-    }
-
     static void addShape(String key, Shape value) {
         shapes.put(key, value);
     }

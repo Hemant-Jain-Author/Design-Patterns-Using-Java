@@ -27,10 +27,6 @@ class ConcretePrototype2 extends Prototype {
 class PrototypeRegistry {
     private static final Map<String, Prototype> prototypes = new HashMap<>();
 
-    static {
-        load();
-    }
-
     static void addPrototype(String key, Prototype value) {
         prototypes.put(key, value);
     }
