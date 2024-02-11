@@ -33,5 +33,4 @@ public class AdapterPattern {
 }
 /* 
 Adaptee someOperation() function called.
-
- */
+*/
