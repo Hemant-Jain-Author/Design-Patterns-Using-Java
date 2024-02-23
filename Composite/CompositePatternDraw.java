@@ -1,14 +1,14 @@
 import java.util.HashSet;
 import java.util.Set;
 
-// Shape
-abstract class Shape {
-    public abstract void move(int x, int y);
-    public abstract String draw();
+// IShape interface
+interface IShape {
+    void move(int x, int y);
+    String draw();
 }
 
 // Rectangle
-class Rectangle extends Shape {
+class Rectangle implements IShape {
     private int x, y, length, breadth;
 
     public Rectangle(int x, int y, int length, int breadth) {
@@ -32,7 +32,7 @@ class Rectangle extends Shape {
 }
 
 // Circle
-class Circle extends Shape {
+class Circle implements IShape {
     private int x, y, radius;
 
     public Circle(int x, int y, int radius) {
@@ -55,32 +55,32 @@ class Circle extends Shape {
 }
 
 // CompoundShape
-class CompoundShape extends Shape {
-    private Set<Shape> children = new HashSet<>();
+class CompoundShape implements IShape {
+    private final Set<IShape> children = new HashSet<>();
 
-    public void add(Shape child) {
+    public void add(IShape child) {
         children.add(child);
     }
 
-    public void remove(Shape child) {
+    public void remove(IShape child) {
         children.remove(child);
     }
 
     @Override
     public void move(int x, int y) {
-        for (Shape child : children) {
+        for (IShape child : children) {
             child.move(x, y);
         }
     }
 
     @Override
     public String draw() {
-        String st = "Shapes(";
-        for (Shape child : children) {
-            st += child.draw();
+        StringBuilder st = new StringBuilder("Shapes(");
+        for (IShape child : children) {
+            st.append(child.draw());
         }
-        st += ")";
-        return st;
+        st.append(")");
+        return st.toString();
     }
 }
 
@@ -94,11 +94,11 @@ public class CompositePatternDraw {
         CompoundShape group = new CompoundShape();
         group.add(new Rectangle(5, 7, 1, 2));
         group.add(new Circle(2, 1, 2));
-
         all.add(group);
         System.out.println(all.draw());
     }
 }
+
 
 /*
 Draw a Circle of radius 10 at (5, 3).
