@@ -46,7 +46,7 @@ public class TemplatePatternOrder {
 }
 
 /*
- * Get the product from the shelf.
+Get the product from the shelf.
 Put the product inside the box.
 Add delivery address slip and ship.
 
